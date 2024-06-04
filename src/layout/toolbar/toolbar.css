@@ -1,0 +1,8 @@
+.toolbar{
+    border-bottom: 1px solid black;
+    background-color: rgb(250, 0, 80);
+}
+
+.link{
+    cursor: pointer;
+}
