@@ -5,11 +5,14 @@ on:
     branches:
       - main
 
+env:
+  APP_LOCATION: "/" # location of your client code
+  OUTPUT_LOCATION: "build" # location of client code build output
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    APP_LOCATION: "/" # location of your client code
-    OUTPUT_LOCATION: "build" # location of client code build output
+    
     
     steps:
       - name: Checkout repository
