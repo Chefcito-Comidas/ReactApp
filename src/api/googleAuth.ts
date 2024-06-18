@@ -10,6 +10,7 @@ import {
   browserLocalPersistence,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  User,
 } from "firebase/auth";
 
 const firebaseConfig = {
@@ -36,26 +37,26 @@ const signInWithGoogle = async () => {
     }
 };
 
-const loginUserPassword = (email:string,password:string) => {
-    signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-        const user = userCredential.user;
-    })
-    .catch((error) => {
+const loginUserPassword = async (email:string,password:string) => {
+    try {
+        const user = await signInWithEmailAndPassword(auth, email, password)
+        return user.user
+    } catch (error:any) {
         const errorCode = error.code;
         const errorMessage = error.message;
-    });
+        return null
+    }
 }
 
-const createUserPassword = (email:string,password:string) => {
-    createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-        const user = userCredential.user;
-    })
-    .catch((error) => {
+const createUserPassword = async (email:string,password:string) => {
+    try {
+        const user = await createUserWithEmailAndPassword(auth, email, password)
+        return user.user
+    } catch (error:any) {
         const errorCode = error.code;
         const errorMessage = error.message;
-    });
+        return null
+    }
 }
 
 const logout = () => {

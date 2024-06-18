@@ -6,6 +6,7 @@ import Form from 'react-bootstrap/Form';
 import { Button } from 'react-bootstrap';
 import * as formik from 'formik';
 import * as yup from 'yup';
+import {createUserPassword} from "../../api/googleAuth";
 
 const Home = () => {
     const { Formik } = formik;
@@ -15,7 +16,17 @@ const Home = () => {
         lastName:yup.string().required(),
         phone:yup.string().required(),
         email:yup.string().required(),
+        password:yup.string().required(),
     });
+
+    const createUser = async (values:any) => {
+        const user = await createUserPassword(values.email,values.password)
+        if(user !== null) {
+            // se creo el usuario en firebase
+        } else {
+            // error en la creacion de usuario
+        }
+    }
 
     return (
         <Container className="home">
@@ -25,12 +36,13 @@ const Home = () => {
                         <div className='formTitle'>¡Registrá tu local ahora mismo!</div>
                         <Formik
                         validationSchema={schema}
-                        onSubmit={console.log}
+                        onSubmit={createUser}
                         initialValues={{
                             firstName:'',
                             lastName:'',
                             phone:'',
                             email:'',
+                            password:''
                         }}
                         >
                             {({ handleSubmit, handleChange, values, touched, errors }) => (
@@ -64,6 +76,13 @@ const Home = () => {
                                         value={values.email}
                                         onChange={handleChange}
                                         isValid={touched.email && !errors.email}
+                                        />
+                                    </Form.Group>
+                                    <Form.Group className="mb-3" controlId="password">
+                                        <Form.Control type="password" placeholder="Contraseña*"
+                                        value={values.password}
+                                        onChange={handleChange}
+                                        isValid={touched.password && !errors.password}
                                         />
                                     </Form.Group>
                                     <Button className='submitButton' type="submit">
