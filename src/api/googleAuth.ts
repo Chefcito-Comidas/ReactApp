@@ -9,6 +9,7 @@ import {
   setPersistence,
   browserLocalPersistence,
   createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
 } from "firebase/auth";
 
 const firebaseConfig = {
@@ -36,6 +37,17 @@ const signInWithGoogle = async () => {
 };
 
 const loginUserPassword = (email:string,password:string) => {
+    signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+        const user = userCredential.user;
+    })
+    .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+    });
+}
+
+const createUserPassword = (email:string,password:string) => {
     createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
         const user = userCredential.user;
@@ -69,4 +81,5 @@ export {
     getUser,
     getToken,
     loginUserPassword,
+    createUserPassword,
 };
