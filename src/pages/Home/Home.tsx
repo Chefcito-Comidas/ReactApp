@@ -7,7 +7,7 @@ import { Button } from 'react-bootstrap';
 import * as formik from 'formik';
 import * as yup from 'yup';
 import {createUserPassword} from "../../api/googleAuth";
-import { getSearchResult } from '../../api/authRestApi';
+import { CreateUser } from '../../api/authRestApi';
 
 const Home = () => {
     const { Formik } = formik;
@@ -25,7 +25,7 @@ const Home = () => {
         if(user !== null) {
             // se creo el usuario en firebase
             const token = await user.getIdToken()
-            const newUser = await getSearchResult(token)
+            const newUser = await CreateUser(token)
             console.log("new user",newUser)
         } else {
             // error en la creacion de usuario
