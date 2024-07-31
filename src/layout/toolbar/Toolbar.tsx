@@ -9,13 +9,31 @@ import { loginUserPassword, auth } from '../../api/googleAuth';
 import { useEffect, useState } from 'react';
 import * as formik from 'formik';
 import * as yup from 'yup';
+import { SingInUser } from '../../api/authRestApi';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks/hook';
+import { setUserData } from '../../redux/reducers/UserData';
+import { User } from 'firebase/auth';
+import Loading from '../../components/Loading/Loading';
+import { GetUser } from '../../hooks/getUser.hook';
+import { useCustomNavigation } from '../../hooks/useCustomNavigation';
 
 const Toolbar = () => {
+    const dispatch = useAppDispatch()
+    const userData = useAppSelector((state) => state.userData.data)
+    const [loading,setLoading] = useState(false)
+    const {
+        user
+    } = GetUser()
+    const {
+        navigateHome,
+        navigateVenue,
+    } = useCustomNavigation()
     const onLogin = async (values:any) =>{
+        setLoading(true)
         const user = await loginUserPassword(values.email,values.password)
         console.log('login',user)
         if(user !== null) {
-            // se creo el usuario en firebase
+            logintoApp(user)
         } else {
             // error en la creacion de usuario
         }
@@ -28,25 +46,42 @@ const Toolbar = () => {
         password:yup.string().required(),
     });
 
+    const logintoApp = async (user:User) => {
+        try {
+            const token = await user.getIdToken()
+            const userData = await SingInUser(token)
+            dispatch(setUserData(userData))
+        } catch (err) {
+            console.log('err',err)
+        }
+        
+        setLoading(false)
+    } 
+
     useEffect(()=>{
-        auth.authStateReady().then(()=>{
-            console.log(auth.currentUser)
-        })
-    },[])
+        setLoading(true)
+        if(user) logintoApp(user)
+    },[user])
 
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-
+    const goToHome = () => {
+        navigateHome()
+    }
+    const goToVenue = () => {
+        navigateVenue()
+    }
     return (
         <>
+            {loading&&<Loading />}
             <Stack direction="horizontal" gap={3} className='toolbar'>
-                <div style={{color:'white'}} className="p-2">Chefcito <Image src={image} style={{maxHeight:30}} rounded /></div>
-                <div style={{color:'white'}} className="p-2 ms-auto link">¿Como Funcionamos?</div>
-                <div style={{color:'white'}} className="p-2 link">Preguntas Frecuentes</div>
-                <div style={{color:'white'}} className="p-2 link">Preguntas Frecuentes</div>
-                <Button variant="primary" onClick={handleShow}>Ir al Portal</Button>
+                <div style={{color:'white',cursor:'pointer'}} onClick={goToHome} className="p-2" >Chefcito <Image src={image} style={{maxHeight:30}} rounded /></div>
+                {userData&&<div style={{color:'white'}} className="p-2 ms-auto link"  onClick={goToVenue}>Ver mi Local</div>}
+                {/* <div style={{color:'white'}} className="p-2 link">Preguntas Frecuentes</div> */}
+                {/* <div style={{color:'white'}} className="p-2 link">Preguntas Frecuentes</div> */}
+                {!userData&&<Button variant="primary" onClick={handleShow}>Ir al Portal</Button>}
             </Stack>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
