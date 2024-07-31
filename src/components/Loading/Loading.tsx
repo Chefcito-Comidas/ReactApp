@@ -12,7 +12,8 @@ const Loading = () => {
             display:'flex',
             justifyContent:'center',
             justifyItems:'center',
-            backgroundColor:'rgba(158, 158, 158, 0.7)'
+            backgroundColor:'rgba(158, 158, 158, 0.7)',
+            zIndex:1000
         }}>
             <Spinner variant="primary" style={{width:120,height:120}}/>
         </div>

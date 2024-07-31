@@ -5,14 +5,16 @@ import Home from './pages/Home/Home';
 import NoPage from './pages/NoPage/NoPage';
 import DefaultLayout from './layout/DefaultLayout/DefaultLayout';
 import Venue from './pages/Venue/Venue';
+import { useAppSelector } from './redux/hooks/hook';
 
 function App() {
+  const userData = useAppSelector((state) => state.userData.data)
   return (
-      <Router >
+    <Router >
       <DefaultLayout>
         <Routes>
           <Route index path='/home' element={<Home />} />
-          <Route path='/venue' element={<Venue/>} />
+          {userData&&<Route path='/venue' element={<Venue/>} />}
           
           <Route path="/" element={<Navigate replace to="/home" />} />
           <Route path="*" element={<NoPage />} />
