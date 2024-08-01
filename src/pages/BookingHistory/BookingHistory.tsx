@@ -12,9 +12,50 @@ const BookingHistory = () => {
     const [loading,setLoading] = useState(false)
     const [page,setPage] = useState(0)
     const [pageSize,setPageSize] = useState(100)
-    const [cantPages,setPageCant] = useState(0)
+    const [cantPages,setPageCant] = useState(1)
 
-    const [bookings,setBookings] = useState<Reservation[]>([])
+    const [bookings,setBookings] = useState<Reservation[]>([
+        {
+            id:'asdfgagfahf',
+            user:'Juan',
+            venue:'',
+            time:'2024-08-09T23:00:38.664Z',
+            people:3,
+            status:{
+                status:'Uncomfirmed'
+            }
+        },
+        {
+            id:'asdfgagfahf',
+            user:'Carlos',
+            venue:'',
+            time:'2024-08-11T00:30:38.664Z',
+            people:1,
+            status:{
+                status:'Accepted'
+            }
+        },
+        {
+            id:'asdfgagfahf',
+            user:'Ivan',
+            venue:'',
+            time:'2024-08-11T00:30:38.664Z',
+            people:4,
+            status:{
+                status:'Uncomfirmed'
+            }
+        },
+        {
+            id:'asdfgagfahf',
+            user:'Santiago',
+            venue:'',
+            time:'2024-08-11T00:00:38.664Z',
+            people:7,
+            status:{
+                status:'Canceled'
+            }
+        },
+    ])
     const [bookingsToShow,setBookingsToShow] = useState<Reservation[]>([])
     const userData = useAppSelector(state => state.userData.data)
 
@@ -31,10 +72,10 @@ const BookingHistory = () => {
                 props.limit = pageSize;
                 setLoading(true)
                 const result = await GetReservations(props,user)
-                setBookingsToShow(result.slice(page*pageSize,(page+1)*pageSize))
-                setPageCant(Math.ceil(result.length/pageSize))
+                // setBookingsToShow(result.slice(page*pageSize,(page+1)*pageSize))
+                // setPageCant(Math.ceil(result.length/pageSize))
                 
-                setBookings([...result])
+                // setBookings([...result])
             }
         } catch (err) {
             console.log("get bookings err",err)
@@ -99,7 +140,7 @@ const BookingHistory = () => {
                     </Row>
                 </Card.Title>
                 <Card.Body>
-                    <Row style={{justifyContent:'center'}}>
+                    <Row style={{justifyContent:'center',flexDirection:'column',alignContent:'center'}}>
                         {(bookingsToShow.length>0)&&bookingsToShow.map((item,index)=>{
                             return <Card style={{paddingLeft:0,paddingRight:0,maxWidth:600,marginBottom:12}} key={`${item?.id}${index}`}>
                                 <Card.Title style={{color:'white',paddingLeft:8}} className={item.status.status==='Accepted'?'Accepted':item.status.status==='Uncomfirmed'?'Uncomfirmed':'Canceled'}><Row style={{marginTop:4}} ><Col>{item.user}</Col></Row></Card.Title>
@@ -107,8 +148,8 @@ const BookingHistory = () => {
                                     <Row>Fecha de Reserva: {moment(item.time).format('DD/MM/YYYY HH:mm')}</Row>
                                     <Row>Cantidad de personas: {item.people}</Row>
                                     {(item.status.status==='Uncomfirmed')&&<Row>
-                                        <Col><Button onClick={()=>AceptBooking(item)}>Aceptar</Button></Col>
-                                        <Col><Button onClick={()=>RejectBooking(item)}>Rechazar</Button></Col>
+                                        <Col><Button onClick={()=>AceptBooking(item)} style={{backgroundColor:'green'}}>Aceptar</Button></Col>
+                                        <Col><Button onClick={()=>RejectBooking(item)} style={{backgroundColor:'red'}}>Rechazar</Button></Col>
                                     </Row>}
                                 </Card.Body>
                             </Card>

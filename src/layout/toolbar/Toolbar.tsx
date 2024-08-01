@@ -84,7 +84,7 @@ const Toolbar = () => {
             <Stack direction="horizontal" gap={3} className='toolbar'>
                 <div style={{color:'white',cursor:'pointer'}} onClick={goToHome} className="p-2" >Chefcito <Image src={image} style={{maxHeight:30}} rounded /></div>
                 {userData&&<div style={{color:'white'}} className="p-2 ms-auto link"  onClick={goToVenue}>Ver mi Local</div>}
-                {userData&&<div style={{color:'white'}} className="p-2 ms-auto link"  onClick={goToBookings}>Ver Reservas</div>}
+                {userData&&<div style={{color:'white'}} className="p-2 link"  onClick={goToBookings}>Ver Reservas</div>}
                 {/* <div style={{color:'white'}} className="p-2 link">Preguntas Frecuentes</div> */}
                 {/* <div style={{color:'white'}} className="p-2 link">Preguntas Frecuentes</div> */}
                 {!userData&&<Button variant="primary" onClick={handleShow}>Ir al Portal</Button>}

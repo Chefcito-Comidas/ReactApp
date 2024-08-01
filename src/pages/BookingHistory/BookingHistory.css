@@ -5,7 +5,9 @@
 .Uncomfirmed{
     background-color: yellow;
 }
-
+.Uncomfirmed div{
+    color: black;
+}
 .Canceled{
     background-color: red;
 }
