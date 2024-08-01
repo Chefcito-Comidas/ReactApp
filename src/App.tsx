@@ -6,6 +6,7 @@ import NoPage from './pages/NoPage/NoPage';
 import DefaultLayout from './layout/DefaultLayout/DefaultLayout';
 import Venue from './pages/Venue/Venue';
 import { useAppSelector } from './redux/hooks/hook';
+import BookingHistory from './pages/BookingHistory/BookingHistory';
 
 function App() {
   const userData = useAppSelector((state) => state.userData.data)
@@ -15,6 +16,7 @@ function App() {
         <Routes>
           <Route index path='/home' element={<Home />} />
           {userData&&<Route path='/venue' element={<Venue/>} />}
+          {userData&&<Route path='/bookings' element={<BookingHistory/>} />}
           
           <Route path="/" element={<Navigate replace to="/home" />} />
           <Route path="*" element={<NoPage />} />

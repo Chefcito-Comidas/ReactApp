@@ -11,10 +11,13 @@ export function useCustomNavigation() {
 
     const navigateVenue = (options?: NavigateOptions) => {
         navigate(`/venue`, options)
-
+    }
+    const navigateBookings = (options?: NavigateOptions) => {
+        navigate(`/bookings`, options)
     }
     return {
         navigateHome,
         navigateVenue,
+        navigateBookings,
     }
 }
