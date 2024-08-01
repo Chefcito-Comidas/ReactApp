@@ -1,0 +1,11 @@
+.Accepted{
+    background-color: green;
+}
+
+.Uncomfirmed{
+    background-color: yellow;
+}
+
+.Canceled{
+    background-color: red;
+}
