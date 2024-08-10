@@ -13,6 +13,8 @@ import Loading from "../../components/Loading/Loading";
 import { MultiSelect } from "react-multi-select-component";
 import moment from "moment";
 import { ref, uploadBytesResumable, getDownloadURL,getStorage } from "firebase/storage";
+import Map, {Marker} from 'react-map-gl';
+import { MAP_BOX_KEY } from "../../utils/constants";
 
 const Venue = () => {
     const { Formik } = formik;
@@ -21,6 +23,9 @@ const Venue = () => {
     const [loading,setLoading] = useState(false)
     const [option,setOption] = useState<any[]>([])
     const [send,setSend] = useState(false)
+    const [position, setPosition] = useState<any>(null);
+    const [location, setLocation] = useState<any>(null);
+
     const [postData,setPostData] = useReducer((state:any,action:any)=>{
         return {...state,...action}
     },{
@@ -37,13 +42,32 @@ const Venue = () => {
 
     const schema = yup.object().shape({
         name:yup.string().required(),
-        location:yup.string().required(),
         capacity:yup.number().required()
     });
 
     const [mainImage,setMainImage] = useState<any>(null)
     const [secondaryImages,setSecondaryImages] = useState<any[]>([])
     const [secondaryImagesUrl,setSecondaryImagesUrl] = useState<string[]>([])
+
+    const setMarker = (event:any) => {
+        const data = {
+            lat:event.lngLat.lat,
+            lng:event.lngLat.lng,
+        }
+        console.log('marker',data)
+        setLocation(data)
+    }
+
+    const getPositionSuccess = (position:any) => {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        setPosition({lat:latitude,lng:longitude})
+        console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+    }
+      
+    const getPositionError = () => {
+        console.log("Unable to retrieve your location");
+    }
 
     const getVenueData =async () => {
         if(userData&&user){
@@ -61,7 +85,8 @@ const Venue = () => {
     }
 
     useEffect(()=>{
-        getVenueData()
+        navigator.geolocation.getCurrentPosition(getPositionSuccess, getPositionError);
+        // getVenueData()
     },[userData,user])
 
     useEffect(()=>{
@@ -118,7 +143,7 @@ const Venue = () => {
     const sendData = async (values:any) => {
         const data = {
             name: values.name,
-            location:values.location,
+            location:`${location.lat};${location.lng}`,
             capacity:values.capacity,
             slots: option.map((item)=>moment().set('hour',parseInt(item.value.split(':')[0])).set('minute',parseInt(item.value.split(':')[1])).format("YYYY-MM-DDTHH:mm"))
         }
@@ -172,7 +197,6 @@ const Venue = () => {
                 onSubmit={sendData}
                 initialValues={{
                     name:venue?venue.name:'',
-                    location:venue?venue.location:'',
                     capacity:venue?venue.capacity:''
                 }}>
                     {({ handleSubmit, handleChange, values, touched, errors }) => (
@@ -185,11 +209,22 @@ const Venue = () => {
                                 />
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="location">
-                                <Form.Control placeholder="Locacion*"
-                                value={values.location}
-                                onChange={handleChange}
-                                isValid={touched.location && !errors.location}
-                                />
+                                
+                                {position&&
+                                    <Map
+                                    mapboxAccessToken={MAP_BOX_KEY}
+                                    initialViewState={{
+                                        longitude: position.lng,
+                                        latitude: position.lat,
+                                        zoom: 14
+                                    }}
+                                    style={{width: 600, height: 400}}
+                                    mapStyle="mapbox://styles/mapbox/streets-v9"
+                                    onClick={setMarker}
+                                    >
+                                        <Marker longitude={location.lng} latitude={location.lat}></Marker>
+                                    </Map>
+                                }
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="capacity">
                                 <Form.Control placeholder="Capacidad*"

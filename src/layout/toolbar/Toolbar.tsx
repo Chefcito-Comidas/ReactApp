@@ -16,6 +16,7 @@ import { User } from 'firebase/auth';
 import Loading from '../../components/Loading/Loading';
 import { GetUser } from '../../hooks/getUser.hook';
 import { useCustomNavigation } from '../../hooks/useCustomNavigation';
+import { UserPost } from '../../models/user.model';
 
 const Toolbar = () => {
     const dispatch = useAppDispatch()
@@ -50,7 +51,12 @@ const Toolbar = () => {
     const logintoApp = async (user:User) => {
         try {
             const token = await user.getIdToken()
-            const userData = await SingInUser(token)
+            console.log(token)
+            // const userData = await SingInUser(token)
+            const userData:UserPost = {
+                email:'',
+                localid:'',
+            }
             dispatch(setUserData(userData))
         } catch (err) {
             console.log('err',err)

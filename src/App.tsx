@@ -7,6 +7,7 @@ import DefaultLayout from './layout/DefaultLayout/DefaultLayout';
 import Venue from './pages/Venue/Venue';
 import { useAppSelector } from './redux/hooks/hook';
 import BookingHistory from './pages/BookingHistory/BookingHistory';
+import 'mapbox-gl/dist/mapbox-gl.css';
 
 function App() {
   const userData = useAppSelector((state) => state.userData.data)
