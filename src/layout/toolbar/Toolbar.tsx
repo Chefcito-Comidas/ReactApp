@@ -52,11 +52,7 @@ const Toolbar = () => {
         try {
             const token = await user.getIdToken()
             console.log(token)
-            // const userData = await SingInUser(token)
-            const userData:UserPost = {
-                email:'',
-                localid:'',
-            }
+            const userData = await SingInUser(token)
             dispatch(setUserData(userData))
         } catch (err) {
             console.log('err',err)

@@ -2,6 +2,7 @@
     background-size:cover;
     align-content: center;
     padding-top: 62px;
+    margin-bottom: 8px;
 }
 
 .formTitle{
@@ -20,4 +21,8 @@
     background-color: var(--secondary-blue) !important;
     border-color: var(--white) !important;
     width: 100%;
+}
+
+.field-ready .dropdown-container{
+    border-color: green !important;
 }
