@@ -1,7 +1,7 @@
 .Venue{
-    height: 100vh;
     background-size:cover;
     align-content: center;
+    padding-top: 62px;
 }
 
 .formTitle{
@@ -17,7 +17,7 @@
 }
 
 .submitButton{
-    background-color: rgb(250, 0, 80) !important;
-    border-color: rgb(250, 0, 80) !important;
+    background-color: var(--secondary-blue) !important;
+    border-color: var(--white) !important;
     width: 100%;
 }

@@ -51,16 +51,17 @@ const Venue = () => {
 
     const setMarker = (event:any) => {
         const data = {
-            lat:event.lngLat.lat,
-            lng:event.lngLat.lng,
+            lat:event?.lngLat?.lat,
+            lng:event?.lngLat?.lng,
         }
         console.log('marker',data)
         setLocation(data)
     }
 
     const getPositionSuccess = (position:any) => {
-        const latitude = position.coords.latitude;
-        const longitude = position.coords.longitude;
+        console.log('position',position)
+        const latitude = position?.coords?.latitude;
+        const longitude = position?.coords?.longitude;
         setPosition({lat:latitude,lng:longitude})
         console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
     }
@@ -83,9 +84,11 @@ const Venue = () => {
             setLoading(false)
         }
     }
-
     useEffect(()=>{
         navigator.geolocation.getCurrentPosition(getPositionSuccess, getPositionError);
+    },[])
+
+    useEffect(()=>{
         // getVenueData()
     },[userData,user])
 
@@ -145,7 +148,7 @@ const Venue = () => {
             name: values.name,
             location:`${location.lat};${location.lng}`,
             capacity:values.capacity,
-            slots: option.map((item)=>moment().set('hour',parseInt(item.value.split(':')[0])).set('minute',parseInt(item.value.split(':')[1])).format("YYYY-MM-DDTHH:mm"))
+            slots: option.map((item)=>moment().set('hour',parseInt(item.value.split(':')[0])).set('minute',parseInt(item.value.split(':')[1])).toISOString())
         }
         setPostData(data)
         updateLogo()
@@ -201,80 +204,92 @@ const Venue = () => {
                 }}>
                     {({ handleSubmit, handleChange, values, touched, errors }) => (
                         <Form noValidate onSubmit={handleSubmit}>
-                            <Form.Group className="mb-3" controlId="name">
-                                <Form.Control  placeholder="Nombre*"
-                                value={values.name}
-                                onChange={handleChange}
-                                isValid={touched.name && !errors.name}
-                                />
-                            </Form.Group>
+                            <Row>
+                                <Col>
+                                    <Form.Group className="mb-3" controlId="name">
+                                        <Form.Control  placeholder="Nombre*"
+                                        value={values.name}
+                                        onChange={handleChange}
+                                        isValid={touched.name && !errors.name}
+                                        />
+                                    </Form.Group>
+                                </Col>
+
+                                <Col>
+                                    <Form.Group className="mb-3" controlId="capacity">
+                                        <Form.Control placeholder="Capacidad*"
+                                        value={values.capacity}
+                                        onChange={handleChange}
+                                        isValid={touched.capacity && !errors.capacity}
+                                        />
+                                    </Form.Group>
+                                </Col>
+
+                                <Col>
+                                    <Form.Group className="mb-3" controlId="Horarios">
+                                        <MultiSelect
+                                            options={[
+                                                '8:00',
+                                                '8:30',
+                                                '9:00',
+                                                '9:30',
+                                                '10:00',
+                                                '10:30',
+                                                '11:00',
+                                                '11:30',
+                                                '12:00',
+                                                '12:30',
+                                                '13:00',
+                                                '13:30',
+                                                '14:00',
+                                                '14:30',
+                                                '15:00',
+                                                '15:30',
+                                                '16:00',
+                                                '16:30',
+                                                '17:00',
+                                                '17:30',
+                                                '18:00',
+                                                '18:30',
+                                                '19:00',
+                                                '19:30',
+                                                '20:00',
+                                                '20:30',
+                                                '21:00',
+                                                '21:30',
+                                                '22:00',
+                                                '22:30',
+                                                '23:00',
+                                                '23:30',
+                                            ].map((item)=>{return {label:item,value:item}})}
+                                            value={option}
+                                            onChange={(item:any)=>{
+                                                setOption(item)
+                                            }}
+                                            labelledBy="Select"
+                                        />
+                                    </Form.Group>
+                                </Col>
+                            </Row>
+                            
+                            
                             <Form.Group className="mb-3" controlId="location">
                                 
                                 {position&&
                                     <Map
                                     mapboxAccessToken={MAP_BOX_KEY}
                                     initialViewState={{
-                                        longitude: position.lng,
-                                        latitude: position.lat,
+                                        longitude: position?.lng,
+                                        latitude: position?.lat,
                                         zoom: 14
                                     }}
                                     style={{width: 600, height: 400}}
                                     mapStyle="mapbox://styles/mapbox/streets-v9"
                                     onClick={setMarker}
                                     >
-                                        <Marker longitude={location.lng} latitude={location.lat}></Marker>
+                                        {location&&<Marker longitude={location?.lng} latitude={location?.lat}></Marker>}
                                     </Map>
                                 }
-                            </Form.Group>
-                            <Form.Group className="mb-3" controlId="capacity">
-                                <Form.Control placeholder="Capacidad*"
-                                value={values.capacity}
-                                onChange={handleChange}
-                                isValid={touched.capacity && !errors.capacity}
-                                />
-                            </Form.Group>
-                            <Form.Group className="mb-3" controlId="Horarios">
-                                <MultiSelect
-                                    options={[
-                                        '8:00',
-                                        '8:30',
-                                        '9:00',
-                                        '9:30',
-                                        '10:00',
-                                        '10:30',
-                                        '11:00',
-                                        '11:30',
-                                        '12:00',
-                                        '12:30',
-                                        '13:00',
-                                        '13:30',
-                                        '14:00',
-                                        '14:30',
-                                        '15:00',
-                                        '15:30',
-                                        '16:00',
-                                        '16:30',
-                                        '17:00',
-                                        '17:30',
-                                        '18:00',
-                                        '18:30',
-                                        '19:00',
-                                        '19:30',
-                                        '20:00',
-                                        '20:30',
-                                        '21:00',
-                                        '21:30',
-                                        '22:00',
-                                        '22:30',
-                                        '23:00',
-                                        '23:30',
-                                    ].map((item)=>{return {label:item,value:item}})}
-                                    value={option}
-                                    onChange={(item:any)=>{
-                                        setOption(item)
-                                    }}
-                                    labelledBy="Select"
-                                />
                             </Form.Group>
                             <Form.Group  controlId="fotoPrincipal" className="mb-3">
                                 <Form.Label>Logo</Form.Label>

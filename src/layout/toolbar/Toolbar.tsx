@@ -67,7 +67,11 @@ const Toolbar = () => {
 
     useEffect(()=>{
         setLoading(true)
-        if(user) logintoApp(user)
+        if(user) {
+            logintoApp(user)
+        } else {
+            setLoading(false)
+        }
     },[user])
 
     const [show, setShow] = useState(false);

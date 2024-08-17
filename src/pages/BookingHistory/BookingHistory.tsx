@@ -132,7 +132,7 @@ const BookingHistory = () => {
 
     return(
         <>
-        <Container>
+        <Container className="history-container">
             <Card>
                 <Card.Title style={{backgroundColor:'#4E598C',color:'white',paddingLeft:12}}>
                     <Row>
