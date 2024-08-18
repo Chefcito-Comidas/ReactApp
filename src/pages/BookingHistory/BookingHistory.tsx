@@ -15,46 +15,46 @@ const BookingHistory = () => {
     const [cantPages,setPageCant] = useState(1)
 
     const [bookings,setBookings] = useState<Reservation[]>([
-        {
-            id:'asdfgagfahf',
-            user:'Juan',
-            venue:'',
-            time:'2024-08-09T23:00:38.664Z',
-            people:3,
-            status:{
-                status:'Uncomfirmed'
-            }
-        },
-        {
-            id:'asdfgagfahf',
-            user:'Carlos',
-            venue:'',
-            time:'2024-08-11T00:30:38.664Z',
-            people:1,
-            status:{
-                status:'Accepted'
-            }
-        },
-        {
-            id:'asdfgagfahf',
-            user:'Ivan',
-            venue:'',
-            time:'2024-08-11T00:30:38.664Z',
-            people:4,
-            status:{
-                status:'Uncomfirmed'
-            }
-        },
-        {
-            id:'asdfgagfahf',
-            user:'Santiago',
-            venue:'',
-            time:'2024-08-11T00:00:38.664Z',
-            people:7,
-            status:{
-                status:'Canceled'
-            }
-        },
+        // {
+        //     id:'asdfgagfahf',
+        //     user:'Juan',
+        //     venue:'',
+        //     time:'2024-08-09T23:00:38.664Z',
+        //     people:3,
+        //     status:{
+        //         status:'Uncomfirmed'
+        //     }
+        // },
+        // {
+        //     id:'asdfgagfahf',
+        //     user:'Carlos',
+        //     venue:'',
+        //     time:'2024-08-11T00:30:38.664Z',
+        //     people:1,
+        //     status:{
+        //         status:'Accepted'
+        //     }
+        // },
+        // {
+        //     id:'asdfgagfahf',
+        //     user:'Ivan',
+        //     venue:'',
+        //     time:'2024-08-11T00:30:38.664Z',
+        //     people:4,
+        //     status:{
+        //         status:'Uncomfirmed'
+        //     }
+        // },
+        // {
+        //     id:'asdfgagfahf',
+        //     user:'Santiago',
+        //     venue:'',
+        //     time:'2024-08-11T00:00:38.664Z',
+        //     people:7,
+        //     status:{
+        //         status:'Canceled'
+        //     }
+        // },
     ])
     const [bookingsToShow,setBookingsToShow] = useState<Reservation[]>([])
     const userData = useAppSelector(state => state.userData.data)
@@ -72,10 +72,10 @@ const BookingHistory = () => {
                 props.limit = pageSize;
                 setLoading(true)
                 const result = await GetReservations(props,user)
-                // setBookingsToShow(result.slice(page*pageSize,(page+1)*pageSize))
-                // setPageCant(Math.ceil(result.length/pageSize))
+                setBookingsToShow(result.slice(page*pageSize,(page+1)*pageSize))
+                setPageCant(Math.ceil(result.length/pageSize))
                 
-                // setBookings([...result])
+                setBookings([...result])
             }
         } catch (err) {
             console.log("get bookings err",err)
