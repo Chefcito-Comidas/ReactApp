@@ -67,7 +67,6 @@ const BookingHistory = () => {
         try {
             if(user) {
                 const props = new GetReservationProps()
-                props.id = userData?.localid
                 props.start = 0;
                 props.limit = pageSize;
                 setLoading(true)
