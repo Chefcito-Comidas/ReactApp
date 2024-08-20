@@ -150,6 +150,9 @@ const BookingHistory = () => {
                                         <Col><Button onClick={()=>AceptBooking(item)} style={{backgroundColor:'green'}}>Aceptar</Button></Col>
                                         <Col><Button onClick={()=>RejectBooking(item)} style={{backgroundColor:'red'}}>Rechazar</Button></Col>
                                     </Row>}
+                                    {(item.status.status==='Accepted')&&<Row>
+                                        <Col><Button onClick={()=>RejectBooking(item)} style={{backgroundColor:'red'}}>Cacelar Reserva</Button></Col>
+                                    </Row>}
                                 </Card.Body>
                             </Card>
                         })}
