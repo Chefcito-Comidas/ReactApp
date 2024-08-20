@@ -1,5 +1,9 @@
 import { Venue } from "./venues.model";
 
+export type ReservationData = {
+    result:Reservation[]
+    total:number
+}
 export type Reservation = {
     id:string;
     user:string;

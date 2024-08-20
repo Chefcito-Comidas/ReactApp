@@ -1,6 +1,6 @@
 import { User } from "firebase/auth";
 import { apiGet, apiPut } from "./apiRestWrapper";
-import { Reservation } from "../models/Reservations.model";
+import { Reservation, ReservationData } from "../models/Reservations.model";
 
 export class GetReservationProps {
     id?:string;
@@ -14,7 +14,7 @@ export class GetReservationProps {
     start?:number = 0;
 }
 
-export const GetReservations = async (props:GetReservationProps,user:User):Promise<Reservation[]> => {
+export const GetReservations = async (props:GetReservationProps,user:User):Promise<ReservationData> => {
     const token = await user.getIdToken()
     let reqProps = ''
     if(props.limit) reqProps += `&limit=${props.limit}`;
