@@ -134,7 +134,7 @@ const BookingHistory = () => {
         <>
         <Container className="history-container">
             <Card>
-                <Card.Title style={{backgroundColor:'#4E598C',color:'white',paddingLeft:12}}>
+                <Card.Title style={{backgroundColor:'#1e3a8a',color:'white',paddingLeft:12}}>
                     <Row>
                         Reservas
                     </Row>
@@ -143,7 +143,19 @@ const BookingHistory = () => {
                     <Row style={{justifyContent:'center',flexDirection:'column',alignContent:'center'}}>
                         {(bookingsToShow.length>0)&&bookingsToShow.map((item,index)=>{
                             return <Card style={{paddingLeft:0,paddingRight:0,maxWidth:600,marginBottom:12}} key={`${item?.id}${index}`}>
-                                <Card.Title style={{color:'white',paddingLeft:8}} className={item.status.status==='Accepted'?'Accepted':item.status.status==='Uncomfirmed'?'Uncomfirmed':'Canceled'}><Row style={{marginTop:4}} ><Col>Santiago Marinaro</Col></Row></Card.Title>
+                                <Card.Title style={{color:'white',paddingLeft:8}} className={'title-container'}>
+                                    <Row style={{marginTop:4}}>
+                                        <Col
+                                        >
+                                            Santiago Marinaro
+                                        </Col>
+                                        <Col
+                                        className={item.status.status==='Accepted'?'Accepted':item.status.status==='Uncomfirmed'?'Uncomfirmed':'Canceled'}
+                                        >
+                                            {item.status.status==='Accepted'?'Aceptado':item.status.status==='Uncomfirmed'?'Sin Confirmar':'Cancelado'}
+                                        </Col>
+                                    </Row>
+                                </Card.Title>
                                 <Card.Body>
                                     <Row>Fecha de Reserva: {moment(item.time).format('DD/MM/YYYY HH:mm')}</Row>
                                     <Row>Cantidad de personas: {item.people}</Row>
