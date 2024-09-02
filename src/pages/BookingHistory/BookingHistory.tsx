@@ -1,4 +1,4 @@
-import { Button, Card, Col, Container, Pagination, Row } from "react-bootstrap"
+import { Button, Col, Container, Row,Table } from "react-bootstrap"
 import "./BookingHistory.css"
 import Loading from "../../components/Loading/Loading"
 import { useEffect, useState } from "react"
@@ -7,13 +7,13 @@ import { GetUser } from "../../hooks/getUser.hook"
 import { Reservation } from "../../models/Reservations.model"
 import { useAppSelector } from "../../redux/hooks/hook"
 import moment from "moment"
+import { BookingStatus } from "../../models/BookingStatus.enum"
+import DatePicker from "react-multi-date-picker"
+import DatePanel from "react-multi-date-picker/plugins/date_panel"
 
 const BookingHistory = () => {
     const [loading,setLoading] = useState(false)
-    const [page,setPage] = useState(0)
-    const [pageSize,setPageSize] = useState(100)
-    const [cantPages,setPageCant] = useState(1)
-
+    const [date,setDate] = useState(moment())
     const [bookings,setBookings] = useState<Reservation[]>([
         // {
         //     id:'asdfgagfahf',
@@ -32,7 +32,7 @@ const BookingHistory = () => {
         //     time:'2024-08-11T00:30:38.664Z',
         //     people:1,
         //     status:{
-        //         status:'Accepted'
+        //         status:BookingStatus.Accepted
         //     }
         // },
         // {
@@ -56,8 +56,6 @@ const BookingHistory = () => {
         //     }
         // },
     ])
-    const [bookingsToShow,setBookingsToShow] = useState<Reservation[]>([])
-    const userData = useAppSelector(state => state.userData.data)
 
     const {
         user
@@ -68,13 +66,10 @@ const BookingHistory = () => {
             if(user) {
                 const props = new GetReservationProps()
                 props.start = 0;
-                props.limit = pageSize;
+                props.limit = 100000;
                 setLoading(true)
                 const result = await GetReservations(props,user)
                 console.log('booking',result)
-                setBookingsToShow(result.result.slice(page*pageSize,(page+1)*pageSize))
-                setPageCant(Math.ceil(result.result.length/pageSize))
-                
                 setBookings([...result.result])
             }
         } catch (err) {
@@ -85,24 +80,8 @@ const BookingHistory = () => {
     }
 
     useEffect(()=>{
-        if(bookings.length) setBookingsToShow(bookings.slice(page*pageSize,(page+1)*pageSize))
-    },[page])
-
-    useEffect(()=>{
         getBookings()
-    },[user])
-
-    const getPaginationItems = () => {
-        const items = []
-        for(let i = 0; i < cantPages;i++) {
-            items.push(
-                <Pagination.Item key={i} active={i === page} onClick={()=>{setPage(i)}}>
-                    {i+1}
-                </Pagination.Item>
-            )
-        } 
-        return items
-    }
+    },[user,date])
 
     const AceptBooking = async (reserrvation:Reservation) =>{
         setLoading(true)
@@ -110,6 +89,7 @@ const BookingHistory = () => {
             if(user) {
                 const result = await AcceptBooking(reserrvation,user)
                 alert("Reserva Aceptada exitosamente")
+                getBookings()
             }
         } catch (err) {
             console.log("accept booking error",err)
@@ -123,6 +103,7 @@ const BookingHistory = () => {
             if(user) {
                 const result = await CancelBooking(reserrvation,user)
                 alert("Reserva Rechazada exitosamente")
+                getBookings()
             }
         } catch (err) {
             console.log("reject booking error",err)
@@ -133,60 +114,70 @@ const BookingHistory = () => {
     return(
         <>
         <Container className="history-container">
-            <Card>
-                <Card.Title style={{backgroundColor:'#1e3a8a',color:'white',paddingLeft:12}}>
-                    <Row>
-                        Reservas
-                    </Row>
-                </Card.Title>
-                <Card.Body>
-                    <Row style={{justifyContent:'center',flexDirection:'column',alignContent:'center'}}>
-                        {(bookingsToShow.length>0)&&bookingsToShow.map((item,index)=>{
-                            return <Card style={{paddingLeft:0,paddingRight:0,maxWidth:600,marginBottom:12}} key={`${item?.id}${index}`}>
-                                <Card.Title style={{color:'white',paddingLeft:8}} className={'title-container'}>
-                                    <Row style={{marginTop:4}}>
-                                        <Col
-                                        >
-                                            Santiago Marinaro
-                                        </Col>
-                                        <Col
-                                        className={item.status.status==='Accepted'?'Accepted':item.status.status==='Uncomfirmed'?'Uncomfirmed':'Canceled'}
-                                        >
-                                            {item.status.status==='Accepted'?'Aceptado':item.status.status==='Uncomfirmed'?'Sin Confirmar':'Cancelado'}
-                                        </Col>
-                                    </Row>
-                                </Card.Title>
-                                <Card.Body>
-                                    <Row>Fecha de Reserva: {moment(item.time).format('DD/MM/YYYY HH:mm')}</Row>
-                                    <Row>Cantidad de personas: {item.people}</Row>
-                                    {(item.status.status==='Uncomfirmed')&&<Row>
-                                        <Col><Button onClick={()=>AceptBooking(item)} style={{backgroundColor:'green'}}>Aceptar</Button></Col>
-                                        <Col><Button onClick={()=>RejectBooking(item)} style={{backgroundColor:'red'}}>Rechazar</Button></Col>
-                                    </Row>}
-                                    {(item.status.status==='Accepted')&&<Row>
-                                        <Col><Button onClick={()=>RejectBooking(item)} style={{backgroundColor:'red'}}>Cacelar Reserva</Button></Col>
-                                    </Row>}
-                                </Card.Body>
-                            </Card>
-                        })}
-                    </Row>
-                    <Pagination style={{justifyContent:'center'}}>
-                        <Pagination.First onClick={()=>setPage(0)} />
-                        <Pagination.Prev onClick={()=>{
-                            if(page-1>=0) {
-                                setPage(page-1)
-                            }
-                        }}/>
-                        {getPaginationItems()}
-                        <Pagination.Next  onClick={()=>{
-                            if(page+1<cantPages) {
-                                setPage(page+1)
-                            }
-                        }}/>
-                        <Pagination.Last onClick={()=>setPage(cantPages-1)}/>
-                    </Pagination>
-                </Card.Body>
-            </Card>
+            <Row>
+                <div className="booking-title">Mis Reservas</div>
+            </Row>
+            <Row style={{marginBottom:8,marginTop:4}}>
+                <DatePicker
+                value={date.toDate()}
+                onChange={(date)=>{
+                    date&&setDate(moment(date.format('YYYY-MM-DDTHH:mm')))
+                }}
+                format="DD/MM/YYYY"
+                plugins={[
+                    <DatePanel markFocused />
+                ]}
+                render={
+                    <Button variant="outline-info">
+                        Fecha Elegida: {date.format('DD/MM/YYYY')}
+                    </Button>
+                }
+                />
+            </Row>
+            <Row style={{justifyContent:'center',flexDirection:'column',alignContent:'center'}}>
+                <Table striped bordered hover>
+                    <thead>
+                        <tr>
+                            <th><div className="Center">Estado</div></th>
+                            <th><div className="Center">Cliente</div></th>
+                            <th><div className="Center">Cantidad de Personas</div></th>
+                            <th><div className="Center">Fecha</div></th>
+                            <th><div className="Center">Acciones</div></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {bookings.length>0&&
+                        bookings.map((booking)=>{
+                            return(
+                                <tr>
+                                    <td 
+                                    >
+                                        <div 
+                                        className={(booking.status.status===BookingStatus.Accepted||booking.status.status===BookingStatus.Assisted)?BookingStatus.Accepted:((booking.status.status===BookingStatus.Canceled||booking.status.status===BookingStatus.Expired)?BookingStatus.Canceled:BookingStatus.Uncomfirmed) + ' Center'}
+                                        >{booking.status.status}</div>
+                                    </td>
+                                    <td>
+                                        <div className="Center">{booking.user}</div>
+                                    </td>
+                                    <td>
+                                        <div className="Center">{booking.people}</div>
+                                    </td>
+                                    <td>
+                                        <div className="Center">{moment(booking.time).format("DD/MM/YYYY HH:mm")}</div>
+                                    </td>
+                                    <td>
+                                        <div className="actionsCol">
+                                            {booking.status.status===BookingStatus.Uncomfirmed&&<Button variant="outline-success" style={{marginRight:4}} onClick={()=>AceptBooking(booking)}>Aceptar Reserva</Button>}
+                                            {(booking.status.status===BookingStatus.Accepted||booking.status.status===BookingStatus.Uncomfirmed)&&<Button variant="outline-danger" onClick={()=>RejectBooking(booking)}>Rechazar Reserva</Button>}
+                                        </div>
+                                    </td>
+                                </tr>
+                            )
+                        })
+                        }
+                    </tbody>
+                </Table>
+            </Row>
         </Container>
         {loading&&<Loading></Loading>}
         </>

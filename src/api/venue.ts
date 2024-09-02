@@ -12,7 +12,7 @@ export const CreateVenue = async (user:User,data:Partial<Venue>) =>{
     return apiPost<Venue>({url:`venues`,payload:{...data},customHeaders:{Authorization:`Bearer ${token}`}})
 }
 
-export const EditVenue = async (user:User,id:string,data:Partial<Venue>) => {
+export const EditVenue = async (user:User,data:Partial<Venue>) => {
     const token = await user.getIdToken()
-    return apiPut<Venue>({url:`venues?id=${id}`,payload:{...data,open:false,close:false,occupy:false},customHeaders:{Authorization:`Bearer ${token}`}})
+    return apiPut<Venue>({url:`venues?id=${data.id}`,payload:{...data,open:false,close:false,occupy:false},customHeaders:{Authorization:`Bearer ${token}`}})
 }

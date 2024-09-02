@@ -3,7 +3,7 @@ import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import { Button, Col, Row, Image } from 'react-bootstrap';
 import { useAppSelector } from "../../redux/hooks/hook";
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer, useRef, useState } from "react";
 import { GetUser } from "../../hooks/getUser.hook";
 import { CreateVenue, EditVenue, getVenue } from "../../api/venue";
 import { Venue as  VenueModel} from "../../models/venues.model";
@@ -39,6 +39,7 @@ const Venue = () => {
     const [option,setOption] = useState<any[]>([])
     const [position, setPosition] = useState<any>(null);
     const [location, setLocation] = useState<any>(null);
+    const newData = useRef(true)
     const {
         user
     } = GetUser()
@@ -75,6 +76,9 @@ const Venue = () => {
                         lat:data.location.split(';')[0],
                         lng:data.location.split(';')[1]
                     })
+                }
+                if(data && data.name) {
+                    newData.current = false
                 }
             } catch (err) {
                 console.log('err get venue',err)
@@ -144,7 +148,11 @@ const Venue = () => {
 
     const sendData = async (values:any) => {
         if(user) {
-            CreateVenue(user,venue)
+            if(newData.current) {
+                CreateVenue(user,venue)
+            } else {
+                EditVenue(user,venue)
+            }
         }
     }
 

@@ -27,8 +27,6 @@ export const CancelBooking = async (reservation:Reservation,user:User) => {
     const value = {
         accept:false,
         cancel:true,
-        time:reservation.time,
-        people:reservation.people
     }
     return apiPut<any>({ url: `reservations/${reservation.id}`,payload:value,customHeaders:{Authorization:`Bearer ${token}`} })
 }
@@ -38,8 +36,6 @@ export const AcceptBooking = async (reservation:Reservation,user:User) => {
     const value = {
         accept:true,
         cancel:false,
-        time:reservation.time,
-        people:reservation.people
     }
     return apiPut<any>({ url: `reservations/${reservation.id}`,payload:value,customHeaders:{Authorization:`Bearer ${token}`} })
 }
