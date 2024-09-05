@@ -17,6 +17,73 @@ import DatePicker from "react-multi-date-picker";
 import DatePanel from "react-multi-date-picker/plugins/date_panel";
 
 const Venue = () => {
+    const tags = [
+        "Arepas",
+        "Cafeteria",
+        "Carnes",
+        "Comida Armenia",
+        "Comida China",
+        "Comida Japonesa",
+        "Comida Mexicana",
+        "Comida Vegana",
+        "Comida Vegetariana",
+        "Empanadas",
+        "Hamburguesas",
+        "Helados",
+        "Licuado y jugos",
+        "Lomitos",
+        "Milanesas",
+        "Panaderia",
+        "Panchos",
+        "Pasta",
+        "Pescado y mariscos",
+        "Picadas",
+        "Pizzas",
+        "Poke",
+        "Pollo",
+        "Postres",
+        "Saludable",
+        "Sushi",
+        "Sándwiches",
+        "Tartas",
+        "Tortillas",
+        "Woks",
+        "Wraps",
+    ]
+    const hours = [
+        '8:00',
+        '8:30',
+        '9:00',
+        '9:30',
+        '10:00',
+        '10:30',
+        '11:00',
+        '11:30',
+        '12:00',
+        '12:30',
+        '13:00',
+        '13:30',
+        '14:00',
+        '14:30',
+        '15:00',
+        '15:30',
+        '16:00',
+        '16:30',
+        '17:00',
+        '17:30',
+        '18:00',
+        '18:30',
+        '19:00',
+        '19:30',
+        '20:00',
+        '20:30',
+        '21:00',
+        '21:30',
+        '22:00',
+        '22:30',
+        '23:00',
+        '23:30',
+    ]
     const userData = useAppSelector(state=>state.userData.data)
     const [venue,setVenue] =  useReducer((state:VenueModel,action:Partial<VenueModel>)=>{
         return {...state,...action}
@@ -37,6 +104,7 @@ const Venue = () => {
     })
     const [loading,setLoading] = useState(false)
     const [option,setOption] = useState<any[]>([])
+    const [tagsOption,setTagsOption] = useState<any[]>([])
     const [position, setPosition] = useState<any>(null);
     const [location, setLocation] = useState<any>(null);
     const newData = useRef(true)
@@ -97,6 +165,7 @@ const Venue = () => {
     useEffect(()=>{
         if(venue) {
             setOption(venue.slots.map((item)=>{return {value:moment(item).format("HH:mm"),label:moment(item).format("HH:mm")}}))
+            setTagsOption(venue.characteristics.map((item)=>{return {value:item,label:item}}))
         }
     },[venue])
 
@@ -201,40 +270,7 @@ const Venue = () => {
                         <Form.Group className="mb-3" controlId="Horarios">
                             <MultiSelect
                             ClearSelectedIcon={null}
-                            options={[
-                                '8:00',
-                                '8:30',
-                                '9:00',
-                                '9:30',
-                                '10:00',
-                                '10:30',
-                                '11:00',
-                                '11:30',
-                                '12:00',
-                                '12:30',
-                                '13:00',
-                                '13:30',
-                                '14:00',
-                                '14:30',
-                                '15:00',
-                                '15:30',
-                                '16:00',
-                                '16:30',
-                                '17:00',
-                                '17:30',
-                                '18:00',
-                                '18:30',
-                                '19:00',
-                                '19:30',
-                                '20:00',
-                                '20:30',
-                                '21:00',
-                                '21:30',
-                                '22:00',
-                                '22:30',
-                                '23:00',
-                                '23:30',
-                            ].map((item)=>{return {label:item,value:item}})}
+                            options={hours.map((item)=>{return {label:item,value:item}})}
                             value={option}
                             onChange={(data:any)=>{
                                 setOption(data)
@@ -262,34 +298,55 @@ const Venue = () => {
                     </Col>
                 </Row>
                 <Row>
-                    <Form.Group as={Row} className="mb-3" controlId="fecha">
-                        <Form.Label column>
-                            <DatePicker
-                            value={venue.vacations.map((item)=>moment(item).toDate())}
-                            onChange={(date)=>{
-                                setVenue({vacations:[
-                                    ...date.map(item=>moment(item.format('YYYY-MM-DDTHH:mm')).toISOString())
-                                ]})
+                    <Col>
+                        <Form.Group as={Row} className="mb-3" controlId="fecha">
+                            <Form.Label column>
+                                <DatePicker
+                                value={venue.vacations.map((item)=>moment(item).toDate())}
+                                onChange={(date)=>{
+                                    setVenue({vacations:[
+                                        ...date.map(item=>moment(item.format('YYYY-MM-DDTHH:mm')).toISOString())
+                                    ]})
+                                }}
+                                format="DD/MM/YYYY"
+                                sort
+                                multiple
+                                plugins={[
+                                    <DatePanel markFocused />
+                                ]}
+                                render={
+                                    <Button>
+                                        Editar Vacaciones
+                                    </Button>
+                                }
+                                />
+                            </Form.Label>
+                            <Col >
+                                {
+                                    venue.vacations.map((item)=><Row>{moment(item).format('DD/MM/YYYY')}</Row>)
+                                }
+                            </Col>
+                        </Form.Group>
+                    </Col>
+
+                    <Col>
+                        <Form.Group className="mb-3" controlId="tags">
+                            <MultiSelect
+                            ClearSelectedIcon={null}
+                            options={tags.map((item)=>{return {label:item,value:item}})}
+                            value={tagsOption}
+                            onChange={(data:any)=>{
+                                setTagsOption(data)
+                                setVenue({
+                                    characteristics:data.map((item:any)=>item.value)
+                                })
                             }}
-                            format="DD/MM/YYYY"
-                            sort
-                            multiple
-                            plugins={[
-                                <DatePanel markFocused />
-                            ]}
-                            render={
-                                <Button>
-                                    Editar Vacaciones
-                                </Button>
-                            }
+                            labelledBy="Select"
+                            className={option.length>0?'field-ready':''}
                             />
-                        </Form.Label>
-                        <Col >
-                            {
-                                venue.vacations.map((item)=><Row>{moment(item).format('DD/MM/YYYY')}</Row>)
-                            }
-                        </Col>
-                    </Form.Group>
+                        </Form.Group>
+                    </Col>
+                    
                 </Row>
                 
                 <Form.Group className="mb-3" controlId="location">

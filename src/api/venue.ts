@@ -14,5 +14,5 @@ export const CreateVenue = async (user:User,data:Partial<Venue>) =>{
 
 export const EditVenue = async (user:User,data:Partial<Venue>) => {
     const token = await user.getIdToken()
-    return apiPut<Venue>({url:`venues?id=${data.id}`,payload:{...data,open:false,close:false,occupy:false},customHeaders:{Authorization:`Bearer ${token}`}})
+    return apiPut<Venue>({url:`venues/${data.id}`,payload:{...data,open:false,close:false,occupy:false},customHeaders:{Authorization:`Bearer ${token}`}})
 }
