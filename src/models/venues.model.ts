@@ -9,7 +9,8 @@ export type Venue = {
     status?: Status;
     characteristics:string[];
     vacations:string[];
-    reservationLeadTime:number
+    reservationLeadTime:number;
+    menu:string;
 }
 
 type Status = {

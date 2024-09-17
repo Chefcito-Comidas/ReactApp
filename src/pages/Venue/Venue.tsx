@@ -100,7 +100,8 @@ const Venue = () => {
         reservationLeadTime: 0,
         status: {
             status: "Unconfirmed"
-        }
+        },
+        menu:""
     })
     const [loading,setLoading] = useState(false)
     const [option,setOption] = useState<any[]>([])
