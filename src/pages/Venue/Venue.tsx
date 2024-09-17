@@ -139,7 +139,7 @@ const Venue = () => {
             try {
                 const data = await getVenue(user,userData.localid)
                 if(data) {
-                    setVenue(data)
+                    setVenue({...data,id:userData.localid})
                     setLocation({
                         lat:data.location.split(';')[0],
                         lng:data.location.split(';')[1]
@@ -150,6 +150,7 @@ const Venue = () => {
                 }
             } catch (err) {
                 console.log('err get venue',err)
+                setVenue({id:userData.localid})
             }
             setLoading(false)
         }
@@ -218,6 +219,7 @@ const Venue = () => {
     const sendData = async (values:any) => {
         if(user) {
             if(newData.current) {
+                venue.location = position.lat +','+position.lng
                 CreateVenue(user,venue)
             } else {
                 EditVenue(user,venue)
