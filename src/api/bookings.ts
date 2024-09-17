@@ -25,7 +25,6 @@ export const GetReservations = async (props:GetReservationProps,user:User):Promi
 export const CancelBooking = async (reservation:Reservation,user:User) => {
     const token = await user.getIdToken()
     const value = {
-        accept:false,
         cancel:true,
     }
     return apiPut<any>({ url: `reservations/${reservation.id}`,payload:value,customHeaders:{Authorization:`Bearer ${token}`} })
@@ -34,8 +33,7 @@ export const CancelBooking = async (reservation:Reservation,user:User) => {
 export const AcceptBooking = async (reservation:Reservation,user:User) => {
     const token = await user.getIdToken()
     const value = {
-        accept:true,
-        cancel:false,
+        advance_forward:true,
     }
     return apiPut<any>({ url: `reservations/${reservation.id}`,payload:value,customHeaders:{Authorization:`Bearer ${token}`} })
 }
