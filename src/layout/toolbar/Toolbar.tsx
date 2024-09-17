@@ -98,6 +98,8 @@ const Toolbar = () => {
     }
 
     const logOut = async () => {
+        logout()
+        navigateHome()
         window.location.reload()
     }
     return (

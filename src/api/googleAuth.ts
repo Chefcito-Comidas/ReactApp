@@ -11,6 +11,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   User,
+  sendPasswordResetEmail
 } from "firebase/auth";
 
 const firebaseConfig = {
@@ -74,6 +75,16 @@ const getUser = () => {
 const getToken  = async () => {
     return await auth?.currentUser?.getIdToken()
 }
+
+const resetpassword = async (email:string) => {
+    try {
+        await sendPasswordResetEmail(auth,email);
+        alert('Password Reset Email Sent!');
+    }
+    catch(error) {
+        console.log("error ===>", error);
+    }
+}
 export {
     auth,
     signInWithGoogle,
@@ -83,4 +94,5 @@ export {
     getToken,
     loginUserPassword,
     createUserPassword,
+    resetpassword,
 };
