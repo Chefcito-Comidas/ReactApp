@@ -35,6 +35,7 @@ const Toolbar = () => {
         const user = await loginUserPassword(values.email,values.password)
         console.log('login',user)
         if(user !== null) {
+            handleClose()
             logintoApp(user)
         } else {
             // error en la creacion de usuario
@@ -55,6 +56,7 @@ const Toolbar = () => {
             console.log(token)
             const userData = await SingInUser(token)
             dispatch(setUserData(userData))
+
         } catch (err) {
             console.log('err',err)
         }
@@ -71,6 +73,7 @@ const Toolbar = () => {
             console.log("new user",newUser,token)
             dispatch(setUserData(newUser))
         }
+        handleClose()
     }
 
     useEffect(()=>{
