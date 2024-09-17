@@ -31,7 +31,7 @@ const googleProvider = new GoogleAuthProvider();
 const signInWithGoogle = async () => {
     try {
         await setPersistence(auth,browserLocalPersistence)
-        await signInWithPopup(auth, googleProvider);
+        return await signInWithPopup(auth, googleProvider);
     } catch (err) {
         console.error(err);
     }

@@ -18,7 +18,7 @@
 }
 
 .submitButton{
-    background-color: var(--secondary-blue) !important;
+    background-color: var(--secondary-color) !important;
     border-color: var(--white) !important;
     width: 100%;
 }

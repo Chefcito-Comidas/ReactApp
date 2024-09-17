@@ -5,11 +5,11 @@ import Image from 'react-bootstrap/Image';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import image from "../../assets/images/Logo_App1.jpg"
-import { loginUserPassword, auth } from '../../api/googleAuth';
+import { loginUserPassword, signInWithGoogle,logout } from '../../api/googleAuth';
 import { useEffect, useState } from 'react';
 import * as formik from 'formik';
 import * as yup from 'yup';
-import { SingInUser } from '../../api/authRestApi';
+import { CreateUser, SingInUser } from '../../api/authRestApi';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks/hook';
 import { setUserData } from '../../redux/reducers/UserData';
 import { User } from 'firebase/auth';
@@ -38,6 +38,7 @@ const Toolbar = () => {
             logintoApp(user)
         } else {
             // error en la creacion de usuario
+            setLoading(false)
         }
     }
 
@@ -61,6 +62,17 @@ const Toolbar = () => {
         setLoading(false)
     } 
 
+    const googleLogin = async () => {
+        const user = await signInWithGoogle()
+        console.log('login',user)
+        const token = await user?.user.getIdToken()
+        if(token) {
+            const newUser = await CreateUser(token,user?.user.displayName??'',user?.user.phoneNumber??'')
+            console.log("new user",newUser,token)
+            dispatch(setUserData(newUser))
+        }
+    }
+
     useEffect(()=>{
         setLoading(true)
         if(user) {
@@ -81,8 +93,12 @@ const Toolbar = () => {
         navigateVenue()
     }
 
-    const goToBookings = () => {
+    const goToBookings = async () => {
         navigateBookings()
+    }
+
+    const logOut = async () => {
+        window.location.reload()
     }
     return (
         <>
@@ -91,6 +107,7 @@ const Toolbar = () => {
                 <div style={{color:'white',cursor:'pointer'}} onClick={goToHome} className="p-2" >Chefcito <Image src={image} style={{maxHeight:30}} rounded /></div>
                 {userData&&<div style={{color:'white'}} className="p-2 ms-auto link"  onClick={goToVenue}>Ver mi Local</div>}
                 {userData&&<div style={{color:'white'}} className="p-2 link"  onClick={goToBookings}>Ver Reservas</div>}
+                {userData&&<div style={{color:'white'}} className="p-2 link"  onClick={logOut}>Log Out</div>}
                 {/* <div style={{color:'white'}} className="p-2 link">Preguntas Frecuentes</div> */}
                 {/* <div style={{color:'white'}} className="p-2 link">Preguntas Frecuentes</div> */}
                 {!userData&&<Button variant="primary" onClick={handleShow}>Ir al Portal</Button>}
@@ -126,6 +143,10 @@ const Toolbar = () => {
                                     </Form.Group>
                                     <Button className='submitButton' type="submit">
                                         Ingresar
+                                    </Button>
+
+                                    <Button className='submitButton' onClick={googleLogin}>
+                                        Ingresar con Google
                                     </Button>
                                 </Form>
                             )}

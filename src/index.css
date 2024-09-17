@@ -13,8 +13,8 @@ code {
 }
 
 :root {
-  --blue:#1e3a8a;
-  --secondary-blue:#5B69DA;
+  --primary-color:#1e3a8a;
+  --secondary-color:#5B69DA;
   --yelow:#ffd100;
   --white:white;
   --success:#28a745;

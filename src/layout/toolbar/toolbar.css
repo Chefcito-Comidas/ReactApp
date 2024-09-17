@@ -1,6 +1,6 @@
 .toolbar{
     border-bottom: 1px solid black;
-    background-color: var(--blue);
+    background-color: var(--primary-color);
     position: fixed;
     width: 100%;
     z-index: 1000;

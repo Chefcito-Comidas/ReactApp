@@ -6,7 +6,7 @@ import Form from 'react-bootstrap/Form';
 import { Button } from 'react-bootstrap';
 import * as formik from 'formik';
 import * as yup from 'yup';
-import {createUserPassword} from "../../api/googleAuth";
+import {createUserPassword,signInWithGoogle} from "../../api/googleAuth";
 import { CreateUser } from '../../api/authRestApi';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks/hook';
 import Loading from '../../components/Loading/Loading';
@@ -21,6 +21,8 @@ const Home = () => {
     const schema = yup.object().shape({
         email:yup.string().required(),
         password:yup.string().required(),
+        name:yup.string().required(),
+        phone:yup.string().required(),
     });
 
     const createUser = async (values:any) => {
@@ -30,7 +32,7 @@ const Home = () => {
             // se creo el usuario en firebase
             try {
                 const token = await user.getIdToken()
-                const newUser = await CreateUser(token)
+                const newUser = await CreateUser(token,values.name,values.phone)
                 console.log("new user",newUser,token)
                 dispatch(setUserData(newUser))
             } catch (err) {
@@ -40,6 +42,17 @@ const Home = () => {
             
         } else {
             // error en la creacion de usuario
+        }
+    }
+
+    const googleLogin = async () => {
+        const user = await signInWithGoogle()
+        console.log('login',user)
+        const token = await user?.user.getIdToken()
+        if(token) {
+            const newUser = await CreateUser(token,user?.user.displayName??'',user?.user.phoneNumber??'')
+            console.log("new user",newUser,token)
+            dispatch(setUserData(newUser))
         }
     }
 
@@ -55,7 +68,9 @@ const Home = () => {
                         onSubmit={createUser}
                         initialValues={{
                             email:'',
-                            password:''
+                            password:'',
+                            name:'',
+                            phone:''
                         }}
                         >
                             {({ handleSubmit, handleChange, values, touched, errors }) => (
@@ -68,6 +83,20 @@ const Home = () => {
                                         />
                                     </Form.Group>
                                     <Form.Group className="mb-3" controlId="password">
+                                        <Form.Control type="text" placeholder="Nombre*"
+                                        value={values.name}
+                                        onChange={handleChange}
+                                        isValid={touched.name && !errors.name}
+                                        />
+                                    </Form.Group>
+                                    <Form.Group className="mb-3" controlId="password">
+                                        <Form.Control type="text" placeholder="Telefono*"
+                                        value={values.phone}
+                                        onChange={handleChange}
+                                        isValid={touched.phone && !errors.phone}
+                                        />
+                                    </Form.Group>
+                                    <Form.Group className="mb-3" controlId="password">
                                         <Form.Control type="password" placeholder="Contraseña*"
                                         value={values.password}
                                         onChange={handleChange}
@@ -76,6 +105,10 @@ const Home = () => {
                                     </Form.Group>
                                     <Button className='submitButton' type="submit">
                                         Comenzar
+                                    </Button>
+
+                                    <Button className='submitButton' onClick={googleLogin}>
+                                        Ingresar con Google
                                     </Button>
                                 </Form>
                             )}
