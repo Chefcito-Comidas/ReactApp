@@ -42,6 +42,7 @@ const Home = () => {
                 dispatch(setUserData(newUser))
             } catch (err) {
                 console.log('err',err)
+                alert("Error al crear usuario")
             }
             setLoading(false)
             
@@ -55,9 +56,14 @@ const Home = () => {
         console.log('login',user)
         const token = await user?.user.getIdToken()
         if(token) {
-            const newUser = await CreateUser(token,user?.user.displayName??'',user?.user.phoneNumber??'')
-            console.log("new user",newUser,token)
-            dispatch(setUserData(newUser))
+            try {
+                const newUser = await CreateUser(token,user?.user.displayName??'',user?.user.phoneNumber??'')
+                console.log("new user",newUser,token)
+                dispatch(setUserData(newUser))
+            } catch (err) {
+                alert("Error al crear usuario")
+            }
+            
         }
     }
 
