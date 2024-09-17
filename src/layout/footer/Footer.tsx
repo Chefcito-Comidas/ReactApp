@@ -2,7 +2,7 @@ import './Footer.css';
 import Stack from 'react-bootstrap/Stack';
 import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
-import image from "../../assets/images/chefcito.jpg"
+import image from "../../assets/images/Logo_App1.jpg"
 import { Row } from 'react-bootstrap';
 const Footer = () => {
 
