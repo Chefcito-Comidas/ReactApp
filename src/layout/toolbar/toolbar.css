@@ -9,3 +9,8 @@
 .link{
     cursor: pointer;
 }
+
+.portal-button{
+    background-color: var(--secondary-color) !important;
+    border-color: var(--secondary-color) !important;
+}

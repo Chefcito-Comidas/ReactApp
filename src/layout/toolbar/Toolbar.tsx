@@ -115,7 +115,7 @@ const Toolbar = () => {
                 {userData&&<div style={{color:'white'}} className="p-2 link"  onClick={logOut}>Log Out</div>}
                 {/* <div style={{color:'white'}} className="p-2 link">Preguntas Frecuentes</div> */}
                 {/* <div style={{color:'white'}} className="p-2 link">Preguntas Frecuentes</div> */}
-                {!userData&&<Button variant="primary" onClick={handleShow}>Ir al Portal</Button>}
+                {!userData&&<Button className='portal-button' onClick={handleShow}>Ir al Portal</Button>}
             </Stack>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
