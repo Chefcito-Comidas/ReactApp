@@ -97,14 +97,14 @@ const Home = () => {
                                         isValid={touched.email && !errors.email}
                                         />
                                     </Form.Group>
-                                    <Form.Group className="mb-3" controlId="password">
+                                    <Form.Group className="mb-3" controlId="name">
                                         <Form.Control type="text" placeholder="Nombre*"
                                         value={values.name}
                                         onChange={handleChange}
                                         isValid={touched.name && !errors.name}
                                         />
                                     </Form.Group>
-                                    <Form.Group className="mb-3" controlId="password">
+                                    <Form.Group className="mb-3" controlId="phone">
                                         <Form.Control type="text" placeholder="Telefono*"
                                         value={values.phone}
                                         onChange={handleChange}
