@@ -30,6 +30,7 @@ const Toolbar = () => {
         navigateVenue,
         navigateBookings,
         navigateOpinions,
+        navigateStadistics,
     } = useCustomNavigation()
     const onLogin = async (values:any) =>{
         setLoading(true)
@@ -105,6 +106,10 @@ const Toolbar = () => {
         navigateOpinions()
     }
 
+    const goToStadistics = () => {
+        navigateStadistics()
+    }
+
     const logOut = async () => {
         logout()
         navigateHome()
@@ -118,6 +123,7 @@ const Toolbar = () => {
                 {userData&&<div style={{color:'white'}} className="p-2 ms-auto link"  onClick={goToVenue}>Mi Local</div>}
                 {userData&&<div style={{color:'white'}} className="p-2 link"  onClick={goToBookings}>Reservas</div>}
                 {userData&&<div style={{color:'white'}} className="p-2 link"  onClick={goToOpinions}>Opiniones</div>}
+                {userData&&<div style={{color:'white'}} className="p-2 link"  onClick={goToStadistics}>Estadisticas</div>}
                 {userData&&<div style={{color:'white'}} className="p-2 link"  onClick={logOut}>Log Out</div>}
                 {/* <div style={{color:'white'}} className="p-2 link">Preguntas Frecuentes</div> */}
                 {/* <div style={{color:'white'}} className="p-2 link">Preguntas Frecuentes</div> */}

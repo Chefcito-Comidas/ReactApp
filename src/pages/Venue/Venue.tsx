@@ -142,8 +142,8 @@ const Venue = () => {
                 if(data) {
                     setVenue({...data,id:userData.localid})
                     setLocation({
-                        lat:data.location.split(';')[0],
-                        lng:data.location.split(';')[1]
+                        lat:data.location.split(',')[0],
+                        lng:data.location.split(',')[1]
                     })
                 }
                 if(data && data.name) {
