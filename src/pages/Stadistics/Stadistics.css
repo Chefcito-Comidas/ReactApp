@@ -6,3 +6,7 @@
 .stadisics-container{
     padding-top: 62px;
 }
+
+.low-assitance{
+    color:var(--error);
+}

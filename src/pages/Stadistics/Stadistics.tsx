@@ -21,11 +21,13 @@ const Stadistics = () => {
     const [dates,setDates] = useState<ChartData[]>([])
     const [turns,setTurns] = useState<ChartData[]>([])
     const [people,setPeople] = useState<number|null>(null)
+    const [lowAssitance,setLowAssitance] = useState<boolean>(false)
 
     const stadistics = async () => {
         try {
             if(user&&userData) {
                 const result = await getStadistics(userData.localid,user)
+                setLowAssitance(((result.expired+result.canceled)/result.total)>0.5)
                 setBookingStats([
                     {name:'Cancelado',value:result.canceled},
                     {name:'Expirado',value:result.expired},
@@ -58,11 +60,17 @@ const Stadistics = () => {
     useEffect(()=>{
         stadistics()
     },[user,userData])
+
+    useEffect(()=>{
+        if(lowAssitance) {
+            alert("Bajo indice de Asistencias")
+        }
+    },[lowAssitance])
     return(
         <>
         <Container className="stadisics-container">
             <Row>
-                <div className="stadisics-title">Estadisticas</div>
+                <div className="stadisics-title">Estadisticas {lowAssitance&&<span className="low-assitance">Bajo Indice de Asistencias</span>}</div>
             </Row>
             {people&&<Row style={{marginBottom:8,marginTop:4,textAlign:'center'}}>
                 Promedio de personas por reserva: {people}
