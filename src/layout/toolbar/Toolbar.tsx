@@ -29,6 +29,7 @@ const Toolbar = () => {
         navigateHome,
         navigateVenue,
         navigateBookings,
+        navigateOpinions,
     } = useCustomNavigation()
     const onLogin = async (values:any) =>{
         setLoading(true)
@@ -100,6 +101,10 @@ const Toolbar = () => {
         navigateBookings()
     }
 
+    const goToOpinions = () => {
+        navigateOpinions()
+    }
+
     const logOut = async () => {
         logout()
         navigateHome()
@@ -110,8 +115,9 @@ const Toolbar = () => {
             {loading&&<Loading />}
             <Stack direction="horizontal" gap={3} className='toolbar'>
                 <div style={{color:'white',cursor:'pointer'}} onClick={goToHome} className="p-2" >Chefcito <Image src={image} style={{maxHeight:30}} rounded /></div>
-                {userData&&<div style={{color:'white'}} className="p-2 ms-auto link"  onClick={goToVenue}>Ver mi Local</div>}
-                {userData&&<div style={{color:'white'}} className="p-2 link"  onClick={goToBookings}>Ver Reservas</div>}
+                {userData&&<div style={{color:'white'}} className="p-2 ms-auto link"  onClick={goToVenue}>Mi Local</div>}
+                {userData&&<div style={{color:'white'}} className="p-2 link"  onClick={goToBookings}>Reservas</div>}
+                {userData&&<div style={{color:'white'}} className="p-2 link"  onClick={goToOpinions}>Opiniones</div>}
                 {userData&&<div style={{color:'white'}} className="p-2 link"  onClick={logOut}>Log Out</div>}
                 {/* <div style={{color:'white'}} className="p-2 link">Preguntas Frecuentes</div> */}
                 {/* <div style={{color:'white'}} className="p-2 link">Preguntas Frecuentes</div> */}

@@ -79,7 +79,7 @@ const getToken  = async () => {
 const resetpassword = async (email:string) => {
     try {
         await sendPasswordResetEmail(auth,email);
-        alert('Password Reset Email Sent!');
+        alert('Email para recuperacion de contraseña enviado');
     }
     catch(error) {
         console.log("error ===>", error);

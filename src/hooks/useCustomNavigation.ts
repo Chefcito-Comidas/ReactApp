@@ -15,9 +15,14 @@ export function useCustomNavigation() {
     const navigateBookings = (options?: NavigateOptions) => {
         navigate(`/bookings`, options)
     }
+
+    const navigateOpinions = (options?: NavigateOptions) => {
+        navigate(`/opinions`, options)
+    }
     return {
         navigateHome,
         navigateVenue,
         navigateBookings,
+        navigateOpinions,
     }
 }
