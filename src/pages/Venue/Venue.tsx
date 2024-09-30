@@ -191,7 +191,28 @@ const Venue = () => {
                 });
             }
         );
+    }
 
+    const updateMenu = (image:any) =>{
+        const storage = getStorage();
+        const storageRef = ref(storage, user?.email + "/menu/" + new Date().getTime());
+        const uploadTask = uploadBytesResumable(storageRef, image);
+        setLoading(true)
+        uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+                
+            },
+            (error) => {},
+            () => {
+                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    setLoading(false)
+                    setVenue({
+                        menu:downloadURL
+                    })
+                });
+            }
+        );
     }
 
     const updateImages = (file:any) =>{
@@ -376,6 +397,15 @@ const Venue = () => {
                         <input type='file' accept='image/jpeg, image/png' onChange={(files:any)=>updateLogo(files.target.files[0])}></input>
                         <Col xs={4} md={4}>
                             {venue.logo&&<Image src={venue.logo} thumbnail  />}
+                        </Col>
+                    </Col>
+                </Form.Group>
+                <Form.Group  controlId="fotoPrincipal" className="mb-3">
+                    <Form.Label>Menu</Form.Label>
+                    <Col>
+                        <input type='file' accept='image/jpeg, image/png' onChange={(files:any)=>updateMenu(files.target.files[0])}></input>
+                        <Col xs={4} md={4}>
+                            {venue.menu&&<Image src={venue.menu} thumbnail  />}
                         </Col>
                     </Col>
                 </Form.Group>
