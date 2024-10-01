@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import "./Opinions.css"
 import { Opinion } from "../../models/opinion.model"
 import { GetUser } from "../../hooks/getUser.hook"
-import { GetOpinonProps, getOpinonsApi } from "../../api/opinions.api"
+import { GetOpinonProps, getOpinonsApi, getSummarieApi } from "../../api/opinions.api"
 import { useAppSelector } from "../../redux/hooks/hook"
 import Loading from "../../components/Loading/Loading"
 import { Container, Row, Table } from "react-bootstrap"
@@ -12,7 +12,7 @@ const Opinions = () => {
     const [loading,setLoading] = useState(false)
     const [opinons,setOpinions] = useState<Opinion[]>([])
     const userData = useAppSelector(state=>state.userData.data)
-
+    const [summarie,setSummarie] = useState('')
     const {
         user
     } = GetUser()
@@ -35,8 +35,20 @@ const Opinions = () => {
         
     }
 
+    const getSummarie = async () => {
+        try {
+            if(userData&&user) {
+                const result = await getSummarieApi(userData.localid,user)
+                setSummarie(result.text)
+            }
+        } catch (err) {
+            console.error('getSummarie Error',err)
+        }
+    }
+
     useEffect(()=>{
         getOpinons()
+        getSummarie()
     },[user,userData])
     return (
         <>
@@ -45,6 +57,9 @@ const Opinions = () => {
                 <div className="opinion-title">Opinones</div>
             </Row>
 
+            <Row>
+                <div className="opinion-summarie">Resumen: {summarie?summarie:'En estos momentos no hay un resumen de opiniones'}</div>
+            </Row>
             <Row style={{justifyContent:'center',flexDirection:'column',alignContent:'center'}}>
                 <Table striped bordered hover>
                     <thead>

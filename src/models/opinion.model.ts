@@ -9,3 +9,9 @@ export type OpinionRequest = {
     result:Opinion[];
     total:number;
 }
+
+export type Summerie = {
+    text: string;
+    date: string;
+    venue: string;
+}

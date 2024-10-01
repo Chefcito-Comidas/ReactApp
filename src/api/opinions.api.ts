@@ -1,6 +1,6 @@
 import { User } from "firebase/auth";
 import { apiGet } from "./apiRestWrapper";
-import { OpinionRequest } from "../models/opinion.model";
+import { OpinionRequest, Summerie } from "../models/opinion.model";
 
 export class GetOpinonProps {
     venue?:string;
@@ -20,3 +20,8 @@ export const getOpinonsApi = async (props:GetOpinonProps,user:User):Promise<Opin
     if(props.to_date) reqProps += `&to_date=${props.start}`;
     return apiGet<OpinionRequest>({ url: `opinions?${reqProps}`,customHeaders:{Authorization:`Bearer ${token}`} })
 } 
+
+export const getSummarieApi = async (id:string,user:User):Promise<Summerie> => {
+    const token = await user.getIdToken()
+    return apiGet<Summerie>({ url: `summaries/${id}`,customHeaders:{Authorization:`Bearer ${token}`} })
+}
