@@ -9,6 +9,7 @@ export type Venue = {
     status?: Status;
     characteristics:string[];
     vacations:string[];
+    features:string[];
     reservationLeadTime:number;
     menu:string;
 }

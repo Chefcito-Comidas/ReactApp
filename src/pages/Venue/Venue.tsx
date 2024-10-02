@@ -1,7 +1,7 @@
 import "./Venue.css"
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
-import { Button, Col, Row, Image } from 'react-bootstrap';
+import { Button, Col, Row, Image, FloatingLabel } from 'react-bootstrap';
 import { useAppSelector } from "../../redux/hooks/hook";
 import { useEffect, useReducer, useRef, useState } from "react";
 import { GetUser } from "../../hooks/getUser.hook";
@@ -84,6 +84,16 @@ const Venue = () => {
         '23:00',
         '23:30',
     ]
+    const features = [
+        "Estacionamiento",
+        "Wifi",
+        "Mascotas",
+        "Aire libre",
+        "Veggie",
+        "Movilidad reducida",
+        "Musica en vivo",
+        "Area fumadores"
+    ];
     const userData = useAppSelector(state=>state.userData.data)
     const [venue,setVenue] =  useReducer((state:VenueModel,action:Partial<VenueModel>)=>{
         return {...state,...action}
@@ -97,15 +107,17 @@ const Venue = () => {
         slots: [],
         characteristics: [],
         vacations: [],
+        features:[],
         reservationLeadTime: 0,
         status: {
             status: "Unconfirmed"
         },
-        menu:""
+        menu:"",
     })
     const [loading,setLoading] = useState(false)
     const [option,setOption] = useState<any[]>([])
     const [tagsOption,setTagsOption] = useState<any[]>([])
+    const [featuresOption,setFeaturesOption] = useState<any[]>([])
     const [position, setPosition] = useState<any>(null);
     const [location, setLocation] = useState<any>(null);
     const newData = useRef(true)
@@ -264,6 +276,7 @@ const Venue = () => {
                 <Row>
                     <Col>
                         <Form.Group className="mb-3" controlId="name">
+                            <Form.Label>Nombre*</Form.Label>
                             <Form.Control  placeholder="Nombre*" required
                             value={venue.name}
                             onChange={(event)=>{
@@ -277,6 +290,7 @@ const Venue = () => {
 
                     <Col>
                         <Form.Group className="mb-3" controlId="capacity">
+                            <Form.Label>Capacidad*</Form.Label>
                             <Form.Control placeholder="Capacidad*" required
                             value={venue.capacity}
                             onChange={(event)=>{
@@ -292,6 +306,7 @@ const Venue = () => {
                 <Row>
                     <Col>
                         <Form.Group className="mb-3" controlId="Horarios">
+                            <Form.Label>Horarios*</Form.Label>
                             <MultiSelect
                             ClearSelectedIcon={null}
                             options={hours.map((item)=>{return {label:item,value:item}})}
@@ -310,6 +325,7 @@ const Venue = () => {
 
                     <Col>
                         <Form.Group className="mb-3" controlId="reservationLeadTime">
+                            <Form.Label>Tiempo Antes de la Reserva en días*</Form.Label>
                             <Form.Control placeholder="Tiempo Antes de la Reserva en días*" required
                             value={venue.reservationLeadTime}
                             onChange={(event)=>{
@@ -355,6 +371,7 @@ const Venue = () => {
 
                     <Col>
                         <Form.Group className="mb-3" controlId="tags">
+                            <Form.Label>Tags</Form.Label>
                             <MultiSelect
                             ClearSelectedIcon={null}
                             options={tags.map((item)=>{return {label:item,value:item}})}
@@ -366,15 +383,36 @@ const Venue = () => {
                                 })
                             }}
                             labelledBy="Select"
-                            className={option.length>0?'field-ready':''}
+                            className={tagsOption.length>0?'field-ready':''}
                             />
                         </Form.Group>
                     </Col>
                     
                 </Row>
+                <Row>
+                    <Col>
+                        <Form.Group className="mb-3" controlId="features">
+                            <Form.Label>Caracteristicas</Form.Label>
+                            <MultiSelect
+                            ClearSelectedIcon={null}
+                            options={features.map((item)=>{return {label:item,value:item}})}
+                            value={featuresOption}
+                            onChange={(data:any)=>{
+                                setFeaturesOption(data)
+                                setVenue({
+                                    features:data.map((item:any)=>item.value)
+                                })
+                            }}
+                            labelledBy="Select"
+                            className={featuresOption.length>0?'field-ready':''}
+                            />
+                        </Form.Group>
+                    </Col>
+                    <Col></Col>
+                </Row>
                 
                 <Form.Group className="mb-3" controlId="location">
-                    
+                    <Form.Label>Ubicacion</Form.Label>
                     {position&&
                         <Map
                         mapboxAccessToken={MAP_BOX_KEY}
