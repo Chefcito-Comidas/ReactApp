@@ -67,6 +67,8 @@ const BookingHistory = () => {
                 const props = new GetReservationProps()
                 props.start = 0;
                 props.limit = 100000;
+                props.from_time = date.startOf('day').toISOString()
+                props.to_time = date.endOf('day').toISOString()
                 setLoading(true)
                 const result = await GetReservations(props,user)
                 console.log('booking',result)
