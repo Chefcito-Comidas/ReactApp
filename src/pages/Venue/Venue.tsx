@@ -150,9 +150,9 @@ const Venue = () => {
         if(userData&&user){
             setLoading(true)
             try {
-                const data = await getVenue(user,userData.localid)
+                const data = await getVenue(user,userData.data.localid)
                 if(data) {
-                    setVenue({...data,id:userData.localid})
+                    setVenue({...data,id:userData.data.localid})
                     setLocation({
                         lat:data.location.split(',')[0],
                         lng:data.location.split(',')[1]
@@ -163,7 +163,7 @@ const Venue = () => {
                 }
             } catch (err) {
                 console.log('err get venue',err)
-                setVenue({id:userData.localid})
+                setVenue({id:userData.data.localid})
             }
             setLoading(false)
         }

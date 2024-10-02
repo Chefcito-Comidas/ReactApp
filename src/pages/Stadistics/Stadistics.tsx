@@ -26,7 +26,7 @@ const Stadistics = () => {
     const stadistics = async () => {
         try {
             if(user&&userData) {
-                const result = await getStadistics(userData.localid,user)
+                const result = await getStadistics(userData.data.localid,user)
                 setLowAssitance(((result.expired+result.canceled)/result.total)>0.5)
                 setBookingStats([
                     {name:'Cancelado',value:result.canceled},

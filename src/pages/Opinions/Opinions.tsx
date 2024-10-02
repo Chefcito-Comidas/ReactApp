@@ -24,7 +24,7 @@ const Opinions = () => {
                 const props:GetOpinonProps = new GetOpinonProps()
                 props.start = 0;
                 props.limit = 100000;
-                props.venue = userData.localid
+                props.venue = userData.data.localid
                 const result = await getOpinonsApi(props,user)
                 setOpinions(result.result)
             }
@@ -38,7 +38,7 @@ const Opinions = () => {
     const getSummarie = async () => {
         try {
             if(userData&&user) {
-                const result = await getSummarieApi(userData.localid,user)
+                const result = await getSummarieApi(userData.data.localid,user)
                 setSummarie(result.text)
             }
         } catch (err) {
