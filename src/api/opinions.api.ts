@@ -13,11 +13,11 @@ export class GetOpinonProps {
 export const getOpinonsApi = async (props:GetOpinonProps,user:User):Promise<OpinionRequest> => {
     const token = await user.getIdToken()
     let reqProps = ''
+    reqProps = `&start=${props.start}`;
     if(props.limit) reqProps += `&limit=${props.limit}`;
-    if(props.start) reqProps += `&start=${props.start}`;
-    if(props.venue) reqProps += `&venue=${props.start}`;
-    if(props.from_date) reqProps += `&from_date=${props.start}`;
-    if(props.to_date) reqProps += `&to_date=${props.start}`;
+    if(props.venue) reqProps += `&venue=${props.venue}`;
+    if(props.from_date) reqProps += `&from_date=${props.from_date}`;
+    if(props.to_date) reqProps += `&to_date=${props.to_date}`;
     return apiGet<OpinionRequest>({ url: `opinions?${reqProps}`,customHeaders:{Authorization:`Bearer ${token}`} })
 } 
 

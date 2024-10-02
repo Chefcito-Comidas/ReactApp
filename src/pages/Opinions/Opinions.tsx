@@ -25,6 +25,7 @@ const Opinions = () => {
                 props.start = 0;
                 props.limit = 100000;
                 props.venue = userData.data.localid
+                console.log('getOpinons',userData,props)
                 const result = await getOpinonsApi(props,user)
                 setOpinions(result.result)
             }
