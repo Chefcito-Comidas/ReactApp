@@ -17,8 +17,8 @@ export class GetReservationProps {
 export const GetReservations = async (props:GetReservationProps,user:User):Promise<ReservationData> => {
     const token = await user.getIdToken()
     let reqProps = ''
+    reqProps += `start=${props.start}`;
     if(props.limit) reqProps += `&limit=${props.limit}`;
-    if(props.start) reqProps += `&start=${props.start}`;
     if(props.from_time) reqProps += `&from_time=${props.from_time}`;
     if(props.to_time) reqProps += `&to_time=${props.to_time}`;
     return apiGet<any>({ url: `reservations/venue?${reqProps}`,customHeaders:{Authorization:`Bearer ${token}`} })
