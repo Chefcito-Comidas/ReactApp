@@ -180,6 +180,7 @@ const Venue = () => {
         if(venue) {
             setOption(venue.slots.map((item)=>{return {value:moment(item).format("HH:mm"),label:moment(item).format("HH:mm")}}))
             setTagsOption(venue.characteristics.map((item)=>{return {value:item,label:item}}))
+            setFeaturesOption(venue.features.map((item)=>{return {value:item,label:item}}))
         }
     },[venue])
 
