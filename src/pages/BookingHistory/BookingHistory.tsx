@@ -14,6 +14,7 @@ import DatePanel from "react-multi-date-picker/plugins/date_panel"
 const BookingHistory = () => {
     const [loading,setLoading] = useState(false)
     const [date,setDate] = useState(moment())
+    const [endDate,setEndDate] = useState(moment().add(1,'month'))
     const [bookings,setBookings] = useState<Reservation[]>([
         // {
         //     id:'asdfgagfahf',
@@ -68,7 +69,7 @@ const BookingHistory = () => {
                 props.start = 0;
                 props.limit = 100000;
                 props.from_time = date.startOf('day').toISOString()
-                props.to_time = date.endOf('day').toISOString()
+                props.to_time = endDate.endOf('day').toISOString()
                 setLoading(true)
                 const result = await GetReservations(props,user)
                 console.log('booking',result)
@@ -121,17 +122,20 @@ const BookingHistory = () => {
             </Row>
             <Row style={{marginBottom:8,marginTop:4}}>
                 <DatePicker
-                value={date.toDate()}
+                value={[date.toDate(),endDate.toDate()]}
                 onChange={(date)=>{
-                    date&&setDate(moment(date.format('YYYY-MM-DDTHH:mm')))
+                    console.log(date)
+                    date&&date.length>0&&setDate(moment(date[0].format('YYYY-MM-DDTHH:mm')))
+                    date&&date.length>1&&setEndDate(moment(date[1].format('YYYY-MM-DDTHH:mm')))
                 }}
+                range
                 format="DD/MM/YYYY"
                 plugins={[
                     <DatePanel markFocused />
                 ]}
                 render={
                     <Button variant="outline-info">
-                        Fecha Elegida: {date.format('DD/MM/YYYY')}
+                        Fecha Elegida: desde {date.format('DD/MM/YYYY')} hasta {endDate.format('DD/MM/YYYY')}
                     </Button>
                 }
                 />
