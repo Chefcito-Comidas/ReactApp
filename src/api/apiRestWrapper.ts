@@ -13,12 +13,10 @@ const getHeaders = (customHeaders: any) => {
         ...customHeaders,
         Accept: "application/json",
         "Content-Type": "application/json",
-        token: "test-x"
     }
 };
 
 axios.defaults.baseURL = BASE_URL;
-axios.defaults.timeout = REQUEST_TIMEOUT;
 
 const requestInterceptor = (req: InternalAxiosRequestConfig<any>): InternalAxiosRequestConfig<any> | Promise<InternalAxiosRequestConfig<any>> => {
     console.log("request wroks");

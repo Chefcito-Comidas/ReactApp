@@ -1,0 +1,29 @@
+.booking-title{
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.Accepted{
+    color:var(--success)
+}
+
+.Uncomfirmed{
+    color:var(--warning)
+}
+
+.Canceled{
+    color:var(--error)
+}
+
+.history-container{
+    padding-top: 62px;
+}
+.Center{
+    text-align: center;
+}
+
+.actionsCol {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

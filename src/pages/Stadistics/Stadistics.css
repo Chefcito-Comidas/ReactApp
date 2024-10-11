@@ -1,0 +1,12 @@
+.stadisics-title{
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.stadisics-container{
+    padding-top: 62px;
+}
+
+.low-assitance{
+    color:var(--error);
+}
