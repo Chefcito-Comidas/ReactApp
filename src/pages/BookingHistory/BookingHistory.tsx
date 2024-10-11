@@ -1,11 +1,12 @@
-import { Button, Col, Container, Row,Table } from "react-bootstrap"
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
+import { Button, Container, Row,Table } from "react-bootstrap"
 import "./BookingHistory.css"
 import Loading from "../../components/Loading/Loading"
 import { useEffect, useState } from "react"
 import { AcceptBooking, CancelBooking, GetReservationProps, GetReservations } from "../../api/bookings"
 import { GetUser } from "../../hooks/getUser.hook"
 import { Reservation } from "../../models/Reservations.model"
-import { useAppSelector } from "../../redux/hooks/hook"
 import moment from "moment"
 import { BookingStatus } from "../../models/BookingStatus.enum"
 import DatePicker from "react-multi-date-picker"

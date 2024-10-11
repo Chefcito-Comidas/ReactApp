@@ -1,7 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import "./Venue.css"
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
-import { Button, Col, Row, Image, FloatingLabel } from 'react-bootstrap';
+import { Button, Col, Row, Image } from 'react-bootstrap';
 import { useAppSelector } from "../../redux/hooks/hook";
 import { useEffect, useReducer, useRef, useState } from "react";
 import { GetUser } from "../../hooks/getUser.hook";
@@ -260,10 +261,6 @@ const Venue = () => {
                 EditVenue(user,venue)
             }
         }
-    }
-
-    const validData = ():any =>{
-        return false
     }
 
     return(

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react"
 import "./Opinions.css"
 import { Opinion } from "../../models/opinion.model"
@@ -39,6 +40,7 @@ const Opinions = () => {
     const getSummarie = async () => {
         try {
             if(userData&&user) {
+                // const summary = await createSummary(userData.data.localid,user)
                 const result = await getSummarieApi(userData.data.localid,user)
                 setSummarie(result.text)
             }
@@ -66,7 +68,7 @@ const Opinions = () => {
                     <thead>
                         <tr>
                             <th><div className="Center">Fecha</div></th>
-                            <th><div className="Center">Reserva</div></th>
+                            {/* <th><div className="Center">Reserva</div></th> */}
                             <th><div className="Center">Opinion</div></th>
                         </tr>
                     </thead>
@@ -78,9 +80,9 @@ const Opinions = () => {
                                     <td>
                                         <div className="Center">{moment(opinion.date).format("DD/MM/YYYY HH:mm")}</div>
                                     </td>
-                                    <td>
+                                    {/* <td>
                                         <div className="Center">{opinion.reservation}</div>
-                                    </td>
+                                    </td> */}
                                     <td>
                                         <div className="Center">{opinion.opinion}</div>
                                     </td>
