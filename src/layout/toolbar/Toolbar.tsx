@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import './toolbar.css';
 import Stack from 'react-bootstrap/Stack';
 import Button from 'react-bootstrap/Button';
@@ -16,7 +17,6 @@ import { User } from 'firebase/auth';
 import Loading from '../../components/Loading/Loading';
 import { GetUser } from '../../hooks/getUser.hook';
 import { useCustomNavigation } from '../../hooks/useCustomNavigation';
-import { UserPost } from '../../models/user.model';
 
 const Toolbar = () => {
     const dispatch = useAppDispatch()
