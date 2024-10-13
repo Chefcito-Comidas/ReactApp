@@ -147,6 +147,8 @@ const BookingHistory = () => {
                         <tr>
                             <th><div className="Center">Estado</div></th>
                             <th><div className="Center">Cliente</div></th>
+                            <th><div className="Center">Asistidos</div></th>
+                            <th><div className="Center">Expirados</div></th>
                             <th><div className="Center">Cantidad de Personas</div></th>
                             <th><div className="Center">Fecha</div></th>
                             <th><div className="Center">Acciones</div></th>
@@ -164,7 +166,13 @@ const BookingHistory = () => {
                                         >{booking.status.status}</div>
                                     </td>
                                     <td>
-                                        <div className="Center">{booking.user}</div>
+                                        <div className="Center">{booking.user.name}</div>
+                                    </td>
+                                    <td>
+                                        <div className="Center">{booking.user.times_assisted}</div>
+                                    </td>
+                                    <td>
+                                        <div className="Center">{booking.user.times_expired}</div>
                                     </td>
                                     <td>
                                         <div className="Center">{booking.people}</div>

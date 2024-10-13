@@ -207,10 +207,10 @@ const Venue = () => {
         );
     }
 
-    const updateMenu = (image:any) =>{
+    const updateMenu = (menu:any) =>{
         const storage = getStorage();
         const storageRef = ref(storage, user?.email + "/menu/" + new Date().getTime());
-        const uploadTask = uploadBytesResumable(storageRef, image);
+        const uploadTask = uploadBytesResumable(storageRef, menu);
         setLoading(true)
         uploadTask.on(
             "state_changed",
@@ -439,10 +439,10 @@ const Venue = () => {
                 <Form.Group  controlId="fotoPrincipal" className="mb-3">
                     <Form.Label>Menu</Form.Label>
                     <Col>
-                        <input type='file' accept='image/jpeg, image/png' onChange={(files:any)=>updateMenu(files.target.files[0])}></input>
-                        <Col xs={4} md={4}>
+                        <input type='file' accept='.pdf' onChange={(files:any)=>updateMenu(files.target.files[0])}></input>
+                        {/* <Col xs={4} md={4}>
                             {venue.menu&&<Image src={venue.menu} thumbnail  />}
-                        </Col>
+                        </Col> */}
                     </Col>
                 </Form.Group>
                 <Form.Group  controlId="fotoPrincipal" className="mb-3">
