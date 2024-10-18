@@ -148,7 +148,7 @@ const Venue = () => {
     }
 
     const getVenueData =async () => {
-        if(userData&&user){
+        if(userData&&user&&userData.data&&userData.data.localid){
             setLoading(true)
             try {
                 const data = await getVenue(user,userData.data.localid)
