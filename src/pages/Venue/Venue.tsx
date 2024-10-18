@@ -151,8 +151,8 @@ const Venue = () => {
         if(userData&&user&&userData.data&&userData.data.localid){
             setLoading(true)
             try {
-                const data = await getVenue(user,userData.data.localid)
-                if(data) {
+                const data = await getVenue(user)
+                if(data&&!data.description&&!data.endpoint) {
                     setVenue({...data,id:userData.data.localid})
                     setLocation({
                         lat:data.location.split(',')[0],
