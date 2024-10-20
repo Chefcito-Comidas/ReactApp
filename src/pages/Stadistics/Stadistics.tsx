@@ -6,6 +6,7 @@ import { GetUser } from "../../hooks/getUser.hook"
 import { useAppSelector } from "../../redux/hooks/hook"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,PieChart,Pie, Bar, BarChart,Cell } from 'recharts';
 import { getStadistics } from "../../api/stadistics.api"
+import { GetReservationProps, GetReservations } from "../../api/bookings"
 
 type ChartData = {
     name:string;
@@ -24,6 +25,8 @@ const Stadistics = () => {
     const [turns,setTurns] = useState<ChartData[]>([])
     const [people,setPeople] = useState<number|null>(null)
     const [lowAssitance,setLowAssitance] = useState<boolean>(false)
+    const [topBookings,setTopBookings] = useState<ChartData[]>([])
+    const [topFaults,setTopFaults] = useState<ChartData[]>([])
 
     const stadistics = async () => {
         try {
@@ -207,8 +210,52 @@ const Stadistics = () => {
         }
     }
 
+    const getBookings = async () =>{
+        try {
+            if(user) {
+                const props = new GetReservationProps()
+                props.start = 0;
+                props.limit = 100000;
+                const result = await GetReservations(props,user)
+                console.log('booking',result)
+                if(result&&result.result&&result.result.length>0) {
+                    const bookings = result.result.map((item)=>item.user)
+                    const topBookings = Array.from(new Set(bookings))
+                    const topReservations = topBookings.sort((a,b)=>b.times_assisted-a.times_assisted)
+                    const topCanceletions = topBookings.sort((a,b)=>b.times_expired-a.times_expired)
+                    let index = 0;
+                    let TopBookings:ChartData[] = []
+                    for(const item of topReservations){
+                        TopBookings.push({
+                            name:item.name,
+                            value:item.times_assisted
+                        })
+                        index++
+                        if(index>=10) break;
+                    }
+                    setTopBookings(TopBookings)
+                    index = 0;
+                    let TopFaults:ChartData[] = []
+                    for(const item of topCanceletions){
+                        TopFaults.push({
+                            name:item.name,
+                            value:item.times_expired
+                        })
+                        index++
+                        if(index>=10) break;
+                    }
+                    setTopFaults(TopFaults)
+                }
+            }
+        } catch (err) {
+            console.log("get bookings err",err)
+        }
+        
+    }
+
     useEffect(()=>{
         stadistics()
+        getBookings()
     },[user,userData])
 
     useEffect(()=>{
@@ -225,9 +272,10 @@ const Stadistics = () => {
             {people&&<Row style={{marginBottom:8,marginTop:4,textAlign:'center'}}>
                 Promedio de personas por reserva: {people}
             </Row>}
-            {bookingStats.length>0&&<Row style={{justifyContent:'center',flexDirection:'column',alignContent:'center',height:'50vh'}}>
+            {bookingStats.length>0&&<Row className="chart-title" style={{justifyContent:'center',flexDirection:'column',alignContent:'center'}}>Estados de las Reservas</Row>}
+            {bookingStats.length>0&&<Row style={{justifyContent:'center',flexDirection:'column',alignContent:'center',height:'25vh', marginBottom:12}}>
                 <ResponsiveContainer width="100%" height="100%">
-                    <PieChart width={500} height={500} title="Estados de las Reservas">
+                    <PieChart width={600} height={600} title="Estados de las Reservas">
                         <Pie
                         dataKey="value"
                         isAnimationActive={false}
@@ -249,7 +297,8 @@ const Stadistics = () => {
                     </PieChart>
                 </ResponsiveContainer>
             </Row>}
-            {dates.length>0&&<Row style={{justifyContent:'center',flexDirection:'column',alignContent:'center',height:'50vh'}}>
+            {dates.length>0&&<Row className="chart-title" style={{justifyContent:'center',flexDirection:'column',alignContent:'center'}}>Reserva por Fecha</Row>}
+            {dates.length>0&&<Row style={{justifyContent:'center',flexDirection:'column',alignContent:'center',height:'40vh', marginBottom:12}}>
                 <ResponsiveContainer width="100%" height="100%">
                     <LineChart
                     width={400}
@@ -271,13 +320,60 @@ const Stadistics = () => {
                     </LineChart>
                 </ResponsiveContainer>
             </Row>}
-            {turns.length>0&&<Row style={{justifyContent:'center',flexDirection:'column',alignContent:'center',height:'50vh'}}>
+            {turns.length>0&&<Row className="chart-title" style={{justifyContent:'center',flexDirection:'column',alignContent:'center'}}>Reservas por Turno</Row>}
+            {turns.length>0&&<Row style={{justifyContent:'center',flexDirection:'column',alignContent:'center',height:'40vh', marginBottom:12}}>
                 <ResponsiveContainer width="100%" height="100%">
                     <BarChart
                     width={400}
                     height={400}
                     data={turns}
                     title="Reservas por Turno"
+                    margin={{
+                        top: 5,
+                        right: 30,
+                        left: 20,
+                        bottom: 5,
+                    }}
+                    >
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="name" />
+                        <YAxis />
+                        <Tooltip />
+                        <Bar dataKey="value" fill="#8884d8"/>
+                    </BarChart>
+                </ResponsiveContainer>
+            </Row>}
+
+            {topBookings.length>0&&<Row className="chart-title" style={{justifyContent:'center',flexDirection:'column',alignContent:'center'}}>Top 10 Reservas por usuarios</Row>}
+            {topBookings.length>0&&<Row style={{justifyContent:'center',flexDirection:'column',alignContent:'center',height:'40vh', marginBottom:12}}>
+                <ResponsiveContainer width="100%" height="100%">
+                    <BarChart
+                    width={400}
+                    height={400}
+                    data={topBookings}
+                    margin={{
+                        top: 5,
+                        right: 30,
+                        left: 20,
+                        bottom: 5,
+                    }}
+                    >
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="name" />
+                        <YAxis />
+                        <Tooltip />
+                        <Bar dataKey="value" fill="#8884d8"/>
+                    </BarChart>
+                </ResponsiveContainer>
+            </Row>}
+
+            {topFaults.length>0&&<Row className="chart-title" style={{justifyContent:'center',flexDirection:'column',alignContent:'center'}}>Top 10 Cancelaciones por usuarios</Row>}
+            {topFaults.length>0&&<Row style={{justifyContent:'center',flexDirection:'column',alignContent:'center',height:'40vh', marginBottom:12}}>
+                <ResponsiveContainer width="100%" height="100%">
+                    <BarChart
+                    width={400}
+                    height={400}
+                    data={topFaults}
                     margin={{
                         top: 5,
                         right: 30,

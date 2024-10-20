@@ -10,3 +10,8 @@
 .low-assitance{
     color:var(--error);
 }
+
+.chart-title{
+    font-size: 28px;
+    font-weight: 600;
+}
