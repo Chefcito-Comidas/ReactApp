@@ -2,7 +2,7 @@ import { User } from "firebase/auth";
 import { apiGet,apiPost,apiPut } from "./apiRestWrapper";
 import { Venue } from "../models/venues.model";
 
-export const getVenue = async  (user:User,id:string) => {
+export const getVenue = async  (user:User) => {
     const token = await user.getIdToken()
     return apiGet<Venue>({url:`venue`,customHeaders:{Authorization:`Bearer ${token}`}})
 }

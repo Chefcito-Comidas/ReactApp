@@ -12,6 +12,9 @@ export type Venue = {
     features:string[];
     reservationLeadTime:number;
     menu:string;
+
+    description?:any
+    endpoint?:any
 }
 
 type Status = {
