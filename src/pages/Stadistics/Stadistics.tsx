@@ -7,6 +7,7 @@ import { useAppSelector } from "../../redux/hooks/hook"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,PieChart,Pie, Bar, BarChart,Cell } from 'recharts';
 import { getStadistics } from "../../api/stadistics.api"
 import { GetReservationProps, GetReservations } from "../../api/bookings"
+import { ReservationData } from "../../models/Reservations.model"
 
 type ChartData = {
     name:string;
@@ -31,179 +32,180 @@ const Stadistics = () => {
     const stadistics = async () => {
         try {
             if(user&&userData) {
-                const result = await getStadistics(userData.data.localid,user)
-                setLowAssitance(((result.expired+result.canceled)/result.total)>0.5)
-                setBookingStats([
-                    {name:'Cancelado',value:result.canceled,color:'orange'},
-                    {name:'Expirado',value:result.expired,color:'red'},
-                    {name:'Finalizado',value:result.total-result.expired-result.canceled,color:'green'},
-                ])
-                setPeople(result.people)
-                const turn:ChartData[] = []
-                for(const key in result.turns.turns) {
-                    turn.push({
-                        name:key,
-                        value:result.turns.turns[key]
-                    })
-                }
-                setTurns(turn)
-
-                const date:ChartData[] = []
-                for(const key in result.days.means) {
-                    date.push({
-                        name:key,
-                        value:result.days.means[key]
-                    })
-                }
-                setDates(date)
-
+                // const result = await getStadistics(userData.data.localid,user)
+                // setLowAssitance(((result.expired+result.canceled)/result.total)>0.5)
                 // setBookingStats([
-                //     {name:'Cancelado',value:9,color:'orange'},
-                //     {name:'Expirado',value:11,color:'red'},
-                //     {name:'Finalizado',value:157,color:'green'},
+                //     {name:'Cancelado',value:result.canceled,color:'orange'},
+                //     {name:'Expirado',value:result.expired,color:'red'},
+                //     {name:'Finalizado',value:result.total-result.expired-result.canceled,color:'green'},
                 // ])
-                // setPeople(Math.floor(Math.random() * 6)+1,)
+                // setPeople(result.people)
                 // const turn:ChartData[] = []
-                // turn.push(
-                //     {
-                //         name:"10:00",
-                //         value:Math.floor(Math.random() * 30)+1,
-                //     },
-                //     {
-                //         name:"10:30",
-                //         value:Math.floor(Math.random() * 30)+1,
-                //     },
-                //     {
-                //         name:"11:00",
-                //         value:Math.floor(Math.random() * 30)+1,
-                //     },
-                //     {
-                //         name:"11:30",
-                //         value:Math.floor(Math.random() * 30)+1,
-                //     },
-                //     {
-                //         name:"12:00",
-                //         value:Math.floor(Math.random() * 30)+1,
-                //     },
-                //     {
-                //         name:"12:30",
-                //         value:Math.floor(Math.random() * 30)+1,
-                //     },
-                //     {
-                //         name:"13:00",
-                //         value:Math.floor(Math.random() * 30)+1,
-                //     },
-                //     {
-                //         name:"13:30",
-                //         value:Math.floor(Math.random() * 30)+1,
-                //     },
-                //     {
-                //         name:"14:00",
-                //         value:Math.floor(Math.random() * 30)+1,
-                //     },
-                //     {
-                //         name:"14:30",
-                //         value:Math.floor(Math.random() * 30)+1,
-                //     },
-                //     {
-                //         name:"15:00",
-                //         value:Math.floor(Math.random() * 30)+1,
-                //     },
-                //     {
-                //         name:"15:30",
-                //         value:Math.floor(Math.random() * 30)+1,
-                //     },
-                //     {
-                //         name:"16:00",
-                //         value:Math.floor(Math.random() * 30)+1,
-                //     },
-                //     {
-                //         name:"16:30",
-                //         value:Math.floor(Math.random() * 30)+1,
-                //     },
-                //     {
-                //         name:"17:00",
-                //         value:Math.floor(Math.random() * 30)+1,
-                //     },
-                //     {
-                //         name:"17:30",
-                //         value:Math.floor(Math.random() * 30)+1,
-                //     },
-                //     {
-                //         name:"18:00",
-                //         value:Math.floor(Math.random() * 30)+1,
-                //     },
-                //     {
-                //         name:"18:30",
-                //         value:Math.floor(Math.random() * 30)+1,
-                //     },
-                //     {
-                //         name:"19:00",
-                //         value:Math.floor(Math.random() * 30)+1,
-                //     },
-                //     {
-                //         name:"19:30",
-                //         value:Math.floor(Math.random() * 30)+1,
-                //     },
-                //     {
-                //         name:"20:00",
-                //         value:Math.floor(Math.random() * 30)+1,
-                //     },
-                //     {
-                //         name:"20:30",
-                //         value:Math.floor(Math.random() * 30)+1,
-                //     },
-                //     {
-                //         name:"21:00",
-                //         value:Math.floor(Math.random() * 30)+1,
-                //     },
-                //     {
-                //         name:"21:30",
-                //         value:Math.floor(Math.random() * 30)+1,
-                //     },
-                //     {
-                //         name:"22:00",
-                //         value:Math.floor(Math.random() * 30)+1,
-                //     },
-                //     {
-                //         name:"22:30",
-                //         value:Math.floor(Math.random() * 30)+1,
-                //     },
-                //     {
-                //         name:"23:00",
-                //         value:Math.floor(Math.random() * 30)+1,
-                //     },
-                //     {
-                //         name:"23:30",
-                //         value:Math.floor(Math.random() * 30)+1,
-                //     },
-                // )
+                // for(const key in result.turns.turns) {
+                //     turn.push({
+                //         name:key,
+                //         value:result.turns.turns[key]
+                //     })
+                // }
                 // setTurns(turn)
 
                 // const date:ChartData[] = []
-                // date.push(
-                //     {"name": "03/10/2024", "value": 38},
-                //     {"name": "04/10/2024", "value": 4},
-                //     {"name": "05/10/2024", "value": 32},
-                //     {"name": "06/10/2024", "value": 60},
-                //     {"name": "07/10/2024", "value": 29},
-                //     {"name": "08/10/2024", "value": 24},
-                //     {"name": "09/10/2024", "value": 58},
-                //     {"name": "10/10/2024", "value": 10},
-                //     {"name": "11/10/2024", "value": 61},
-                //     {"name": "12/10/2024", "value": 17},
-                //     {"name": "13/10/2024", "value": 99},
-                //     {"name": "14/10/2024", "value": 83},
-                //     {"name": "15/10/2024", "value": 77},
-                //     {"name": "16/10/2024", "value": 94},
-                //     {"name": "17/10/2024", "value": 38},
-                //     {"name": "18/10/2024", "value": 56},
-                //     {"name": "19/10/2024", "value": 82},
-                //     {"name": "20/10/2024", "value": 79},
-                //     {"name": "21/10/2024", "value": 18},
-                //     {"name": "22/10/2024", "value": 55},
-                // )
+                // for(const key in result.days.means) {
+                //     date.push({
+                //         name:key,
+                //         value:result.days.means[key]
+                //     })
+                // }
                 // setDates(date)
+
+                setLowAssitance(false)
+                setBookingStats([
+                    {name:'Cancelado',value:9,color:'orange'},
+                    {name:'Expirado',value:11,color:'red'},
+                    {name:'Finalizado',value:157,color:'green'},
+                ])
+                setPeople(Math.floor(Math.random() * 6)+1,)
+                const turn:ChartData[] = []
+                turn.push(
+                    {
+                        name:"10:00",
+                        value:Math.floor(Math.random() * 5)+1,
+                    },
+                    {
+                        name:"10:30",
+                        value:Math.floor(Math.random() * 5)+1,
+                    },
+                    {
+                        name:"11:00",
+                        value:Math.floor(Math.random() * 15)+1,
+                    },
+                    {
+                        name:"11:30",
+                        value:Math.floor(Math.random() * 20)+1,
+                    },
+                    {
+                        name:"12:00",
+                        value:Math.floor(Math.random() * 30)+1,
+                    },
+                    {
+                        name:"12:30",
+                        value:Math.floor(Math.random() * 30)+10,
+                    },
+                    {
+                        name:"13:00",
+                        value:Math.floor(Math.random() * 30)+10,
+                    },
+                    {
+                        name:"13:30",
+                        value:Math.floor(Math.random() * 30)+10,
+                    },
+                    {
+                        name:"14:00",
+                        value:Math.floor(Math.random() * 20)+10,
+                    },
+                    {
+                        name:"14:30",
+                        value:Math.floor(Math.random() * 20)+1,
+                    },
+                    {
+                        name:"15:00",
+                        value:Math.floor(Math.random() * 5)+1,
+                    },
+                    {
+                        name:"15:30",
+                        value:Math.floor(Math.random() * 5)+1,
+                    },
+                    {
+                        name:"16:00",
+                        value:Math.floor(Math.random() * 5)+1,
+                    },
+                    {
+                        name:"16:30",
+                        value:Math.floor(Math.random() * 5)+1,
+                    },
+                    {
+                        name:"17:00",
+                        value:Math.floor(Math.random() * 5)+1,
+                    },
+                    {
+                        name:"17:30",
+                        value:Math.floor(Math.random() * 5)+1,
+                    },
+                    {
+                        name:"18:00",
+                        value:Math.floor(Math.random() * 5)+1,
+                    },
+                    {
+                        name:"18:30",
+                        value:Math.floor(Math.random() * 5)+1,
+                    },
+                    {
+                        name:"19:00",
+                        value:Math.floor(Math.random() * 5)+1,
+                    },
+                    {
+                        name:"19:30",
+                        value:Math.floor(Math.random() * 10)+1,
+                    },
+                    {
+                        name:"20:00",
+                        value:Math.floor(Math.random() * 20)+1,
+                    },
+                    {
+                        name:"20:30",
+                        value:Math.floor(Math.random() * 30)+10,
+                    },
+                    {
+                        name:"21:00",
+                        value:Math.floor(Math.random() * 30)+10,
+                    },
+                    {
+                        name:"21:30",
+                        value:Math.floor(Math.random() * 30)+10,
+                    },
+                    {
+                        name:"22:00",
+                        value:Math.floor(Math.random() * 30)+10,
+                    },
+                    {
+                        name:"22:30",
+                        value:Math.floor(Math.random() * 30)+10,
+                    },
+                    {
+                        name:"23:00",
+                        value:Math.floor(Math.random() * 20)+10,
+                    },
+                    {
+                        name:"23:30",
+                        value:Math.floor(Math.random() * 20)+10,
+                    },
+                )
+                setTurns(turn)
+
+                const date:ChartData[] = []
+                date.push(
+                    {"name": "03/10/2024", "value": 38},
+                    {"name": "04/10/2024", "value": 4},
+                    {"name": "05/10/2024", "value": 32},
+                    {"name": "06/10/2024", "value": 60},
+                    {"name": "07/10/2024", "value": 29},
+                    {"name": "08/10/2024", "value": 24},
+                    {"name": "09/10/2024", "value": 58},
+                    {"name": "10/10/2024", "value": 10},
+                    {"name": "11/10/2024", "value": 61},
+                    {"name": "12/10/2024", "value": 17},
+                    {"name": "13/10/2024", "value": 99},
+                    {"name": "14/10/2024", "value": 83},
+                    {"name": "15/10/2024", "value": 77},
+                    {"name": "16/10/2024", "value": 94},
+                    {"name": "17/10/2024", "value": 38},
+                    {"name": "18/10/2024", "value": 56},
+                    {"name": "19/10/2024", "value": 82},
+                    {"name": "20/10/2024", "value": 79},
+                    {"name": "21/10/2024", "value": 18},
+                    {"name": "22/10/2024", "value": 55},
+                )
+                setDates(date)
             }
         } catch (err) {
             console.error('get stats error',err)
@@ -216,19 +218,72 @@ const Stadistics = () => {
                 const props = new GetReservationProps()
                 props.start = 0;
                 props.limit = 100000;
-                const result = await GetReservations(props,user)
-                console.log('booking',result)
+                // const result:ReservationData = await GetReservations(props,user)
+                const result:ReservationData = {
+                    total:10,
+                    result:[
+                        {
+                            "id": '1',
+                            "user": {
+                              "id": "1",
+                              "name": "Santiago Jose",
+                              "phone": "1145788596",
+                              "times_assisted": 100,
+                              "times_expired": 5
+                            },
+                            "venue": "string",
+                            "time": "2024-10-21T19:49:24.364Z",
+                            "people": 0,
+                            "status": {
+                              "status": "string"
+                            }
+                        },
+                        {
+                            "id": '1',
+                            "user": {
+                              "id": "1",
+                              "name": "Santiago Jose",
+                              "phone": "1145788596",
+                              "times_assisted": 100,
+                              "times_expired": 5
+                            },
+                            "venue": "string",
+                            "time": "2024-10-21T19:49:24.364Z",
+                            "people": 0,
+                            "status": {
+                              "status": "string"
+                            }
+                        },
+                        {
+                            "id": '1',
+                            "user": {
+                              "id": "1",
+                              "name": "Santiago Jose 2",
+                              "phone": "1145788596",
+                              "times_assisted": 5,
+                              "times_expired": 500
+                            },
+                            "venue": "string",
+                            "time": "2024-10-21T19:49:24.364Z",
+                            "people": 0,
+                            "status": {
+                              "status": "string"
+                            }
+                        },
+                    ]
+                }
                 if(result&&result.result&&result.result.length>0) {
                     const bookings = result.result.map((item)=>item.user)
-                    const topBookings = Array.from(new Set(bookings))
-                    const topReservations = topBookings.sort((a,b)=>b.times_assisted-a.times_assisted)
-                    const topCanceletions = topBookings.sort((a,b)=>b.times_expired-a.times_expired)
+                    const set = new Set(bookings.map((item)=>JSON.stringify(item)))
+                    const topBookings = Array.from(set).map((item)=>JSON.parse(item))
+                    const topReservations = [...topBookings].sort((a,b)=>b.times_assisted-a.times_assisted)
+                    const topCanceletions = [...topBookings].sort((a,b)=>b.times_expired-a.times_expired)
                     let index = 0;
                     let TopBookings:ChartData[] = []
                     for(const item of topReservations){
                         TopBookings.push({
                             name:item.name,
-                            value:item.times_assisted
+                            value:item.times_assisted,
                         })
                         index++
                         if(index>=10) break;
@@ -239,7 +294,7 @@ const Stadistics = () => {
                     for(const item of topCanceletions){
                         TopFaults.push({
                             name:item.name,
-                            value:item.times_expired
+                            value:item.times_expired,
                         })
                         index++
                         if(index>=10) break;
@@ -362,7 +417,7 @@ const Stadistics = () => {
                         <XAxis dataKey="name" />
                         <YAxis />
                         <Tooltip />
-                        <Bar dataKey="value" fill="#8884d8"/>
+                        <Bar dataKey="value" fill="green"/>
                     </BarChart>
                 </ResponsiveContainer>
             </Row>}
@@ -385,7 +440,7 @@ const Stadistics = () => {
                         <XAxis dataKey="name" />
                         <YAxis />
                         <Tooltip />
-                        <Bar dataKey="value" fill="#8884d8"/>
+                        <Bar dataKey="value" fill="red"/>
                     </BarChart>
                 </ResponsiveContainer>
             </Row>}
