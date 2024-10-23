@@ -245,7 +245,7 @@ const Stadistics = () => {
                               "id": "1",
                               "name": "Santiago Jose",
                               "phone": "1145788596",
-                              "times_assisted": 100,
+                              "times_assisted": 20,
                               "times_expired": 5
                             },
                             "venue": "string",
@@ -259,10 +259,90 @@ const Stadistics = () => {
                             "id": '1',
                             "user": {
                               "id": "1",
-                              "name": "Santiago Jose 2",
+                              "name": "Juan cruz",
                               "phone": "1145788596",
                               "times_assisted": 5,
-                              "times_expired": 500
+                              "times_expired": 15
+                            },
+                            "venue": "string",
+                            "time": "2024-10-21T19:49:24.364Z",
+                            "people": 0,
+                            "status": {
+                              "status": "string"
+                            }
+                        },
+                        {
+                            "id": '1',
+                            "user": {
+                              "id": "1",
+                              "name": "Javier Pereira",
+                              "phone": "1145788596",
+                              "times_assisted": 15,
+                              "times_expired": 0
+                            },
+                            "venue": "string",
+                            "time": "2024-10-21T19:49:24.364Z",
+                            "people": 0,
+                            "status": {
+                              "status": "string"
+                            }
+                        },
+                        {
+                            "id": '1',
+                            "user": {
+                              "id": "1",
+                              "name": "Florencia Martinez",
+                              "phone": "1145788596",
+                              "times_assisted": 20,
+                              "times_expired": 3
+                            },
+                            "venue": "string",
+                            "time": "2024-10-21T19:49:24.364Z",
+                            "people": 0,
+                            "status": {
+                              "status": "string"
+                            }
+                        },
+                        {
+                            "id": '1',
+                            "user": {
+                              "id": "1",
+                              "name": "Carlos Kent",
+                              "phone": "1145788596",
+                              "times_assisted": 0,
+                              "times_expired": 28
+                            },
+                            "venue": "string",
+                            "time": "2024-10-21T19:49:24.364Z",
+                            "people": 0,
+                            "status": {
+                              "status": "string"
+                            }
+                        },
+                        {
+                            "id": '1',
+                            "user": {
+                              "id": "1",
+                              "name": "Marta Gonzales",
+                              "phone": "1145788596",
+                              "times_assisted": 15,
+                              "times_expired": 0
+                            },
+                            "venue": "string",
+                            "time": "2024-10-21T19:49:24.364Z",
+                            "people": 0,
+                            "status": {
+                              "status": "string"
+                            }
+                        },
+                        {
+                            "id": '1',
+                            "user": {
+                              "id": "1",
+                              "name": "Rodrigo Pereira",
+                              "phone": "1145788596",
+                              "times_assisted": 5,
+                              "times_expired": 10
                             },
                             "venue": "string",
                             "time": "2024-10-21T19:49:24.364Z",
