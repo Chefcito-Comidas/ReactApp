@@ -2,7 +2,7 @@
 import "./Venue.css"
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
-import { Button, Col, Row, Image } from 'react-bootstrap';
+import { Button, Col, Row, Image, Alert } from 'react-bootstrap';
 import { useAppSelector } from "../../redux/hooks/hook";
 import { useEffect, useReducer, useRef, useState } from "react";
 import { GetUser } from "../../hooks/getUser.hook";
@@ -115,6 +115,8 @@ const Venue = () => {
         },
         menu:"",
     })
+    const [showSuccess,setShowSuccess] = useState(false)
+    const [showError,setShowError] = useState(false)
     const [loading,setLoading] = useState(false)
     const [option,setOption] = useState<any[]>([])
     const [tagsOption,setTagsOption] = useState<any[]>([])
@@ -174,12 +176,19 @@ const Venue = () => {
     },[])
 
     useEffect(()=>{
+        setTimeout(()=>{
+            setShowError(false)
+            setShowSuccess(false)
+        },1000)
+    },[showError,showSuccess])
+
+    useEffect(()=>{
         getVenueData()
     },[userData,user])
 
     useEffect(()=>{
         if(venue) {
-            setOption(venue.slots.map((item)=>{return {value:moment(item).format("HH:mm"),label:moment(item).format("HH:mm")}}))
+            setOption(venue.slots.map((item)=>{return {value:moment(item).local().format("HH:mm"),label:moment(item).local().format("HH:mm")}}))
             setTagsOption(venue.characteristics.map((item)=>{return {value:item,label:item}}))
             setFeaturesOption(venue.features.map((item)=>{return {value:item,label:item}}))
         }
@@ -253,14 +262,21 @@ const Venue = () => {
     }
 
     const sendData = async (values:any) => {
-        if(user) {
-            if(newData.current) {
-                venue.location = position.lat +','+position.lng
-                CreateVenue(user,venue)
-            } else {
-                EditVenue(user,venue)
+        try {
+            if(user) {
+                if(newData.current) {
+                    venue.location = position.lat +','+position.lng
+                    CreateVenue(user,venue)
+                } else {
+                    EditVenue(user,venue)
+                }
             }
+            setShowSuccess(true)
+        } catch (err){
+            console.log('error guardando datos del local',err)
+            setShowError(true)
         }
+        
     }
 
     return(
@@ -312,7 +328,7 @@ const Venue = () => {
                             onChange={(data:any)=>{
                                 setOption(data)
                                 setVenue({
-                                    slots:data.map((item:any)=>moment().set('hour',parseInt(item.value.split(':')[0])).set('minute',parseInt(item.value.split(':')[1])).toISOString())
+                                    slots:data.map((item:any)=>moment().local().set('hour',parseInt(item.value.split(':')[0])).set('minute',parseInt(item.value.split(':')[1])).toISOString())
                                 })
                             }}
                             labelledBy="Select"
@@ -340,10 +356,10 @@ const Venue = () => {
                         <Form.Group as={Row} className="mb-3" controlId="fecha">
                             <Form.Label column>
                                 <DatePicker
-                                value={venue.vacations.map((item)=>moment(item).toDate())}
+                                value={venue.vacations.map((item)=>moment(item).local().toDate())}
                                 onChange={(date)=>{
                                     setVenue({vacations:[
-                                        ...date.map(item=>moment(item.format('YYYY-MM-DDTHH:mm')).toISOString())
+                                        ...date.map(item=>moment(item.format('YYYY-MM-DDTHH:mm')).local().toISOString())
                                     ]})
                                 }}
                                 format="DD/MM/YYYY"
@@ -361,7 +377,7 @@ const Venue = () => {
                             </Form.Label>
                             <Col >
                                 {
-                                    venue.vacations.map((item)=><Row>{moment(item).format('DD/MM/YYYY')}</Row>)
+                                    venue.vacations.map((item)=><Row>{moment(item).local().format('DD/MM/YYYY')}</Row>)
                                 }
                             </Col>
                         </Form.Group>
@@ -475,7 +491,18 @@ const Venue = () => {
                 </Button>
             </Form>
             </Row>
-            
+            <Alert variant="danger" show={showError} onClose={() => setShowError(false)} dismissible style={{position:'fixed',top:50,left:'30%',zIndex:1000}}>
+                <Alert.Heading>Error</Alert.Heading>
+                <p>
+                    Hubo un error al intentar guardar los datos del local. Intente otravez pasado un tiempo
+                </p>
+            </Alert>
+            <Alert variant="success" show={showSuccess} onClose={() => setShowSuccess(false)} dismissible style={{position:'fixed',top:50,left:'40%',zIndex:1000}}>
+                <Alert.Heading>Exito</Alert.Heading>
+                <p>
+                    Datos guardados con exito
+                </p>
+            </Alert>
         </Container>
     )
 }

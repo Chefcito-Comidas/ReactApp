@@ -6,7 +6,7 @@ import Image from 'react-bootstrap/Image';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import image from "../../assets/images/Logo_App1.jpg"
-import { loginUserPassword, signInWithGoogle,logout } from '../../api/googleAuth';
+import { loginUserPassword, signInWithGoogle,logout, resetpassword } from '../../api/googleAuth';
 import { useEffect, useState } from 'react';
 import * as formik from 'formik';
 import * as yup from 'yup';
@@ -51,6 +51,7 @@ const Toolbar = () => {
         email:yup.string().required(),
         password:yup.string().required(),
     });
+    const [email, setEmail] = useState('');
 
     const logintoApp = async (user:User) => {
         try {
@@ -88,9 +89,19 @@ const Toolbar = () => {
     },[user])
 
     const [show, setShow] = useState(false);
+    const [showPassChange, setShowPassChange] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    const handleShowPassChange = () => {
+        setShow(false)
+        setShowPassChange(true)
+    };
+    const handleClosePassChange = () => {
+        setShowPassChange(false)
+        setShow(true)
+    };
+
     const goToHome = () => {
         navigateHome()
     }
@@ -114,6 +125,11 @@ const Toolbar = () => {
         logout()
         navigateHome()
         window.location.reload()
+    }
+
+    const recoverPassword = async () => {
+        await resetpassword(email)
+        handleClosePassChange()
     }
     return (
         <>
@@ -165,9 +181,30 @@ const Toolbar = () => {
                                     <Button className='submitButton' onClick={googleLogin}>
                                         Ingresar con Google
                                     </Button>
+
+                                    <div className='recover-password'><span style={{cursor:'pointer'}} onClick={handleShowPassChange}>¿Olvidaste tu contraseña?</span></div>
                                 </Form>
                             )}
                     </Formik>
+                </Modal.Body>
+            </Modal>
+            <Modal show={showPassChange} onHide={handleClosePassChange}>
+                <Modal.Header closeButton>
+                <Modal.Title>Recuperar Contraseña</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form noValidate>
+                        <Form.Group className="mb-3" controlId="email">
+                            <Form.Control type="email" placeholder="Email*"
+                            value={email}
+                            onChange={(value)=>setEmail(value.target.value)}
+                            isValid={email!==''}
+                            />
+                        </Form.Group>
+                        <Button className='submitButton' onClick={recoverPassword} disabled={email===''}>
+                            Recuperar contraseña
+                        </Button>
+                    </Form>
                 </Modal.Body>
             </Modal>
         </>
