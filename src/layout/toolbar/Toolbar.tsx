@@ -201,7 +201,7 @@ const Toolbar = () => {
                             isValid={email!==''}
                             />
                         </Form.Group>
-                        <Button className='submitButton' onClick={recoverPassword} disabled={email!==''}>
+                        <Button className='submitButton' onClick={recoverPassword} disabled={email===''}>
                             Recuperar contraseña
                         </Button>
                     </Form>
