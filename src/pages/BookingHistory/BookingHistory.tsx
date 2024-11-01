@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button, Container, Row,Table } from "react-bootstrap"
+import { Alert, Button, Container, Row,Table } from "react-bootstrap"
 import "./BookingHistory.css"
 import Loading from "../../components/Loading/Loading"
 import { useEffect, useState } from "react"
@@ -14,50 +14,20 @@ import DatePanel from "react-multi-date-picker/plugins/date_panel"
 
 const BookingHistory = () => {
     const [loading,setLoading] = useState(false)
-    const [date,setDate] = useState(moment())
-    const [endDate,setEndDate] = useState(moment().add(1,'month'))
-    const [bookings,setBookings] = useState<Reservation[]>([
-        // {
-        //     id:'asdfgagfahf',
-        //     user:'Juan',
-        //     venue:'',
-        //     time:'2024-08-09T23:00:38.664Z',
-        //     people:3,
-        //     status:{
-        //         status:'Uncomfirmed'
-        //     }
-        // },
-        // {
-        //     id:'asdfgagfahf',
-        //     user:'Carlos',
-        //     venue:'',
-        //     time:'2024-08-11T00:30:38.664Z',
-        //     people:1,
-        //     status:{
-        //         status:BookingStatus.Accepted
-        //     }
-        // },
-        // {
-        //     id:'asdfgagfahf',
-        //     user:'Ivan',
-        //     venue:'',
-        //     time:'2024-08-11T00:30:38.664Z',
-        //     people:4,
-        //     status:{
-        //         status:'Uncomfirmed'
-        //     }
-        // },
-        // {
-        //     id:'asdfgagfahf',
-        //     user:'Santiago',
-        //     venue:'',
-        //     time:'2024-08-11T00:00:38.664Z',
-        //     people:7,
-        //     status:{
-        //         status:'Canceled'
-        //     }
-        // },
-    ])
+    const [showSuccess,setShowSuccess] = useState(false)
+    const [showCancelSuccess,setShowCancelSuccess] = useState(false)
+    const [showError,setShowError] = useState(false)
+    const [date,setDate] = useState(moment().local())
+    const [endDate,setEndDate] = useState(moment().local().add(1,'month'))
+    const [bookings,setBookings] = useState<Reservation[]>([])
+
+    useEffect(()=>{
+        setTimeout(()=>{
+            setShowError(false)
+            setShowCancelSuccess(false)
+            setShowSuccess(false)
+        },1000)
+    },[showError,showSuccess,showCancelSuccess])
 
     const {
         user
@@ -92,11 +62,12 @@ const BookingHistory = () => {
         try {
             if(user) {
                 const result = await AcceptBooking(reserrvation,user)
-                alert("Reserva Aceptada exitosamente")
+                setShowSuccess(true)
                 getBookings()
             }
         } catch (err) {
             console.log("accept booking error",err)
+            setShowError(true)
         }
         setLoading(false)
     }
@@ -106,11 +77,12 @@ const BookingHistory = () => {
         try {
             if(user) {
                 const result = await CancelBooking(reserrvation,user)
-                alert("Reserva Rechazada exitosamente")
+                setShowCancelSuccess(true)
                 getBookings()
             }
         } catch (err) {
             console.log("reject booking error",err)
+            setShowError(true)
         }
         setLoading(false)
     }
@@ -126,17 +98,20 @@ const BookingHistory = () => {
                 value={[date.toDate(),endDate.toDate()]}
                 onChange={(date)=>{
                     console.log(date)
-                    date&&date.length>0&&setDate(moment(date[0].format('YYYY-MM-DDTHH:mm')))
-                    date&&date.length>1&&setEndDate(moment(date[1].format('YYYY-MM-DDTHH:mm')))
+                    if(date&&date.length===2) {
+                        setDate(moment(date[0].format('YYYY-MM-DDTHH:mm')).local())
+                        setEndDate(moment(date[1].format('YYYY-MM-DDTHH:mm')).local())
+                    }
                 }}
                 range
+                rangeHover
                 format="DD/MM/YYYY"
                 plugins={[
                     <DatePanel markFocused />
                 ]}
                 render={
                     <Button variant="outline-info">
-                        Fecha Elegida: desde {date.format('DD/MM/YYYY')} hasta {endDate.format('DD/MM/YYYY')}
+                        Fecha Elegida: desde {date.local().format('DD/MM/YYYY')} hasta {endDate.local().format('DD/MM/YYYY')}
                     </Button>
                 }
                 />
@@ -178,7 +153,7 @@ const BookingHistory = () => {
                                         <div className="Center">{booking.people}</div>
                                     </td>
                                     <td>
-                                        <div className="Center">{moment(booking.time).format("DD/MM/YYYY HH:mm")}</div>
+                                        <div className="Center">{moment(booking.time).local().format("DD/MM/YYYY HH:mm")}</div>
                                     </td>
                                     <td>
                                         <div className="actionsCol">
@@ -193,6 +168,24 @@ const BookingHistory = () => {
                     </tbody>
                 </Table>
             </Row>
+            <Alert variant="danger" show={showError} onClose={() => setShowError(false)} dismissible style={{position:'fixed',top:50,left:'30%',zIndex:1000}}>
+                <Alert.Heading>Error</Alert.Heading>
+                <p>
+                    Hubo un error al intentar modificar el Estado de la reserva. Intente otravez pasado un tiempo
+                </p>
+            </Alert>
+            <Alert variant="success" show={showSuccess} onClose={() => setShowSuccess(false)} dismissible style={{position:'fixed',top:50,left:'40%',zIndex:1000}}>
+                <Alert.Heading>Exito</Alert.Heading>
+                <p>
+                    Reserva Aceptada con exito
+                </p>
+            </Alert>
+            <Alert variant="success" show={showCancelSuccess} onClose={() => setShowCancelSuccess(false)} dismissible style={{position:'fixed',top:50,left:'40%',zIndex:1000}}>
+                <Alert.Heading>Exito</Alert.Heading>
+                <p>
+                    Reserva Rechazada con exito
+                </p>
+            </Alert>
         </Container>
         {loading&&<Loading></Loading>}
         </>

@@ -491,13 +491,13 @@ const Venue = () => {
                 </Button>
             </Form>
             </Row>
-            <Alert variant="danger" show={showError} onClose={() => setShowError(false)} dismissible style={{position:'absolute',top:50,left:'30%',zIndex:1000}}>
+            <Alert variant="danger" show={showError} onClose={() => setShowError(false)} dismissible style={{position:'fixed',top:50,left:'30%',zIndex:1000}}>
                 <Alert.Heading>Error</Alert.Heading>
                 <p>
-                    Hubo un error al intentar guardar los datos del local. Si persiste por favor intente otravez pasado un tiempo
+                    Hubo un error al intentar guardar los datos del local. Intente otravez pasado un tiempo
                 </p>
             </Alert>
-            <Alert variant="success" show={showSuccess} onClose={() => setShowSuccess(false)} dismissible style={{position:'absolute',top:50,left:'40%',zIndex:1000}}>
+            <Alert variant="success" show={showSuccess} onClose={() => setShowSuccess(false)} dismissible style={{position:'fixed',top:50,left:'40%',zIndex:1000}}>
                 <Alert.Heading>Exito</Alert.Heading>
                 <p>
                     Datos guardados con exito
