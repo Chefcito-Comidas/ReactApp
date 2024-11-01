@@ -14,3 +14,7 @@
     background-color: var(--secondary-color) !important;
     border-color: var(--secondary-color) !important;
 }
+
+.recover-password{
+    text-align: center;
+}

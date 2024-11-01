@@ -6,7 +6,7 @@ import Form from 'react-bootstrap/Form';
 import { Button,Modal } from 'react-bootstrap';
 import * as formik from 'formik';
 import * as yup from 'yup';
-import {createUserPassword,signInWithGoogle,resetpassword} from "../../api/googleAuth";
+import {createUserPassword,signInWithGoogle} from "../../api/googleAuth";
 import { CreateUser } from '../../api/authRestApi';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks/hook';
 import Loading from '../../components/Loading/Loading';
@@ -18,10 +18,6 @@ const Home = () => {
     const userData = useAppSelector((state) => state.userData.data)
     const dispatch = useAppDispatch()
     const [loading,setLoading] = useState(false)
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-    const [email, setEmail] = useState('');
 
     const schema = yup.object().shape({
         email:yup.string().required(),
@@ -67,10 +63,6 @@ const Home = () => {
         }
     }
 
-    const recoverPassword = async () => {
-        await resetpassword(email)
-        handleClose()
-    }
     return (
         <Container className="home">
             {loading&&<Loading />}
@@ -128,30 +120,9 @@ const Home = () => {
                                 </Form>
                             )}
                         </Formik>
-
-                        <div className='recover-password'><span style={{cursor:'pointer'}} onClick={handleShow}>¿Olvidaste tu contraseña?</span></div>
                     </div>
                 </Col>}
             </Row>
-            <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton>
-                <Modal.Title>Recuperar Contraseña</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Form noValidate>
-                        <Form.Group className="mb-3" controlId="email">
-                            <Form.Control type="email" placeholder="Email*"
-                            value={email}
-                            onChange={(value)=>setEmail(value.target.value)}
-                            isValid={email!==''}
-                            />
-                        </Form.Group>
-                        <Button className='submitButton' onClick={recoverPassword} disabled={email!==''}>
-                            Ingresar con Google
-                        </Button>
-                    </Form>
-                </Modal.Body>
-            </Modal>
         </Container>
     )
 }

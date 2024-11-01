@@ -33,180 +33,180 @@ const Stadistics = () => {
     const stadistics = async () => {
         try {
             if(user&&userData) {
-                // const result = await getStadistics(userData.data.localid,user)
-                // setLowAssitance(((result.expired+result.canceled)/result.total)>0.5)
-                // setBookingStats([
-                //     {name:'Cancelado',value:result.canceled,color:'orange'},
-                //     {name:'Expirado',value:result.expired,color:'red'},
-                //     {name:'Finalizado',value:result.total-result.expired-result.canceled,color:'green'},
-                // ])
-                // setPeople(result.people)
-                // const turn:ChartData[] = []
-                // for(const key in result.turns.turns) {
-                //     turn.push({
-                //         name:key,
-                //         value:result.turns.turns[key]
-                //     })
-                // }
-                // setTurns(turn)
-
-                // const date:ChartData[] = []
-                // for(const key in result.days.means) {
-                //     date.push({
-                //         name:key,
-                //         value:result.days.means[key]
-                //     })
-                // }
-                // setDates(date)
-
-                setLowAssitance(false)
+                const result = await getStadistics(userData.data.localid,user)
+                setLowAssitance(((result.expired+result.canceled)/result.total)>0.5)
                 setBookingStats([
-                    {name:'Cancelado',value:9,color:'orange'},
-                    {name:'Expirado',value:11,color:'red'},
-                    {name:'Finalizado',value:157,color:'green'},
+                    {name:'Cancelado',value:result.canceled,color:'orange'},
+                    {name:'Expirado',value:result.expired,color:'red'},
+                    {name:'Finalizado',value:result.total-result.expired-result.canceled,color:'green'},
                 ])
-                setPeople(Math.floor(Math.random() * 6)+1,)
+                setPeople(result.people)
                 const turn:ChartData[] = []
-                turn.push(
-                    {
-                        name:"10:00",
-                        value:Math.floor(Math.random() * 5)+1,
-                    },
-                    {
-                        name:"10:30",
-                        value:Math.floor(Math.random() * 5)+1,
-                    },
-                    {
-                        name:"11:00",
-                        value:Math.floor(Math.random() * 15)+1,
-                    },
-                    {
-                        name:"11:30",
-                        value:Math.floor(Math.random() * 20)+1,
-                    },
-                    {
-                        name:"12:00",
-                        value:Math.floor(Math.random() * 30)+1,
-                    },
-                    {
-                        name:"12:30",
-                        value:Math.floor(Math.random() * 30)+10,
-                    },
-                    {
-                        name:"13:00",
-                        value:Math.floor(Math.random() * 30)+10,
-                    },
-                    {
-                        name:"13:30",
-                        value:Math.floor(Math.random() * 30)+10,
-                    },
-                    {
-                        name:"14:00",
-                        value:Math.floor(Math.random() * 20)+10,
-                    },
-                    {
-                        name:"14:30",
-                        value:Math.floor(Math.random() * 20)+1,
-                    },
-                    {
-                        name:"15:00",
-                        value:Math.floor(Math.random() * 5)+1,
-                    },
-                    {
-                        name:"15:30",
-                        value:Math.floor(Math.random() * 5)+1,
-                    },
-                    {
-                        name:"16:00",
-                        value:Math.floor(Math.random() * 5)+1,
-                    },
-                    {
-                        name:"16:30",
-                        value:Math.floor(Math.random() * 5)+1,
-                    },
-                    {
-                        name:"17:00",
-                        value:Math.floor(Math.random() * 5)+1,
-                    },
-                    {
-                        name:"17:30",
-                        value:Math.floor(Math.random() * 5)+1,
-                    },
-                    {
-                        name:"18:00",
-                        value:Math.floor(Math.random() * 5)+1,
-                    },
-                    {
-                        name:"18:30",
-                        value:Math.floor(Math.random() * 5)+1,
-                    },
-                    {
-                        name:"19:00",
-                        value:Math.floor(Math.random() * 5)+1,
-                    },
-                    {
-                        name:"19:30",
-                        value:Math.floor(Math.random() * 10)+1,
-                    },
-                    {
-                        name:"20:00",
-                        value:Math.floor(Math.random() * 20)+1,
-                    },
-                    {
-                        name:"20:30",
-                        value:Math.floor(Math.random() * 30)+10,
-                    },
-                    {
-                        name:"21:00",
-                        value:Math.floor(Math.random() * 30)+10,
-                    },
-                    {
-                        name:"21:30",
-                        value:Math.floor(Math.random() * 30)+10,
-                    },
-                    {
-                        name:"22:00",
-                        value:Math.floor(Math.random() * 30)+10,
-                    },
-                    {
-                        name:"22:30",
-                        value:Math.floor(Math.random() * 30)+10,
-                    },
-                    {
-                        name:"23:00",
-                        value:Math.floor(Math.random() * 20)+10,
-                    },
-                    {
-                        name:"23:30",
-                        value:Math.floor(Math.random() * 20)+10,
-                    },
-                )
+                for(const key in result.turns.turns) {
+                    turn.push({
+                        name:key,
+                        value:result.turns.turns[key]
+                    })
+                }
                 setTurns(turn)
 
                 const date:ChartData[] = []
-                date.push(
-                    {"name": "03/10/2024", "value": 38},
-                    {"name": "04/10/2024", "value": 4},
-                    {"name": "05/10/2024", "value": 32},
-                    {"name": "06/10/2024", "value": 60},
-                    {"name": "07/10/2024", "value": 29},
-                    {"name": "08/10/2024", "value": 24},
-                    {"name": "09/10/2024", "value": 58},
-                    {"name": "10/10/2024", "value": 10},
-                    {"name": "11/10/2024", "value": 61},
-                    {"name": "12/10/2024", "value": 17},
-                    {"name": "13/10/2024", "value": 99},
-                    {"name": "14/10/2024", "value": 83},
-                    {"name": "15/10/2024", "value": 77},
-                    {"name": "16/10/2024", "value": 94},
-                    {"name": "17/10/2024", "value": 38},
-                    {"name": "18/10/2024", "value": 56},
-                    {"name": "19/10/2024", "value": 82},
-                    {"name": "20/10/2024", "value": 79},
-                    {"name": "21/10/2024", "value": 18},
-                    {"name": "22/10/2024", "value": 55},
-                )
+                for(const key in result.days.means) {
+                    date.push({
+                        name:key,
+                        value:result.days.means[key]
+                    })
+                }
                 setDates(date)
+
+                // setLowAssitance(false)
+                // setBookingStats([
+                //     {name:'Cancelado',value:9,color:'orange'},
+                //     {name:'Expirado',value:11,color:'red'},
+                //     {name:'Finalizado',value:157,color:'green'},
+                // ])
+                // setPeople(Math.floor(Math.random() * 6)+1,)
+                // const turn:ChartData[] = []
+                // turn.push(
+                //     {
+                //         name:"10:00",
+                //         value:Math.floor(Math.random() * 5)+1,
+                //     },
+                //     {
+                //         name:"10:30",
+                //         value:Math.floor(Math.random() * 5)+1,
+                //     },
+                //     {
+                //         name:"11:00",
+                //         value:Math.floor(Math.random() * 15)+1,
+                //     },
+                //     {
+                //         name:"11:30",
+                //         value:Math.floor(Math.random() * 20)+1,
+                //     },
+                //     {
+                //         name:"12:00",
+                //         value:Math.floor(Math.random() * 30)+1,
+                //     },
+                //     {
+                //         name:"12:30",
+                //         value:Math.floor(Math.random() * 30)+10,
+                //     },
+                //     {
+                //         name:"13:00",
+                //         value:Math.floor(Math.random() * 30)+10,
+                //     },
+                //     {
+                //         name:"13:30",
+                //         value:Math.floor(Math.random() * 30)+10,
+                //     },
+                //     {
+                //         name:"14:00",
+                //         value:Math.floor(Math.random() * 20)+10,
+                //     },
+                //     {
+                //         name:"14:30",
+                //         value:Math.floor(Math.random() * 20)+1,
+                //     },
+                //     {
+                //         name:"15:00",
+                //         value:Math.floor(Math.random() * 5)+1,
+                //     },
+                //     {
+                //         name:"15:30",
+                //         value:Math.floor(Math.random() * 5)+1,
+                //     },
+                //     {
+                //         name:"16:00",
+                //         value:Math.floor(Math.random() * 5)+1,
+                //     },
+                //     {
+                //         name:"16:30",
+                //         value:Math.floor(Math.random() * 5)+1,
+                //     },
+                //     {
+                //         name:"17:00",
+                //         value:Math.floor(Math.random() * 5)+1,
+                //     },
+                //     {
+                //         name:"17:30",
+                //         value:Math.floor(Math.random() * 5)+1,
+                //     },
+                //     {
+                //         name:"18:00",
+                //         value:Math.floor(Math.random() * 5)+1,
+                //     },
+                //     {
+                //         name:"18:30",
+                //         value:Math.floor(Math.random() * 5)+1,
+                //     },
+                //     {
+                //         name:"19:00",
+                //         value:Math.floor(Math.random() * 5)+1,
+                //     },
+                //     {
+                //         name:"19:30",
+                //         value:Math.floor(Math.random() * 10)+1,
+                //     },
+                //     {
+                //         name:"20:00",
+                //         value:Math.floor(Math.random() * 20)+1,
+                //     },
+                //     {
+                //         name:"20:30",
+                //         value:Math.floor(Math.random() * 30)+10,
+                //     },
+                //     {
+                //         name:"21:00",
+                //         value:Math.floor(Math.random() * 30)+10,
+                //     },
+                //     {
+                //         name:"21:30",
+                //         value:Math.floor(Math.random() * 30)+10,
+                //     },
+                //     {
+                //         name:"22:00",
+                //         value:Math.floor(Math.random() * 30)+10,
+                //     },
+                //     {
+                //         name:"22:30",
+                //         value:Math.floor(Math.random() * 30)+10,
+                //     },
+                //     {
+                //         name:"23:00",
+                //         value:Math.floor(Math.random() * 20)+10,
+                //     },
+                //     {
+                //         name:"23:30",
+                //         value:Math.floor(Math.random() * 20)+10,
+                //     },
+                // )
+                // setTurns(turn)
+
+                // const date:ChartData[] = []
+                // date.push(
+                //     {"name": "03/10/2024", "value": 38},
+                //     {"name": "04/10/2024", "value": 4},
+                //     {"name": "05/10/2024", "value": 32},
+                //     {"name": "06/10/2024", "value": 60},
+                //     {"name": "07/10/2024", "value": 29},
+                //     {"name": "08/10/2024", "value": 24},
+                //     {"name": "09/10/2024", "value": 58},
+                //     {"name": "10/10/2024", "value": 10},
+                //     {"name": "11/10/2024", "value": 61},
+                //     {"name": "12/10/2024", "value": 17},
+                //     {"name": "13/10/2024", "value": 99},
+                //     {"name": "14/10/2024", "value": 83},
+                //     {"name": "15/10/2024", "value": 77},
+                //     {"name": "16/10/2024", "value": 94},
+                //     {"name": "17/10/2024", "value": 38},
+                //     {"name": "18/10/2024", "value": 56},
+                //     {"name": "19/10/2024", "value": 82},
+                //     {"name": "20/10/2024", "value": 79},
+                //     {"name": "21/10/2024", "value": 18},
+                //     {"name": "22/10/2024", "value": 55},
+                // )
+                // setDates(date)
             }
         } catch (err) {
             console.error('get stats error',err)
@@ -219,140 +219,140 @@ const Stadistics = () => {
                 const props = new GetReservationProps()
                 props.start = 0;
                 props.limit = 100000;
-                // const result:ReservationData = await GetReservations(props,user)
-                const result:ReservationData = {
-                    total:10,
-                    result:[
-                        {
-                            "id": '1',
-                            "user": {
-                              "id": "1",
-                              "name": "Santiago Jose",
-                              "phone": "1145788596",
-                              "times_assisted": 100,
-                              "times_expired": 5
-                            },
-                            "venue": "string",
-                            "time": "2024-10-21T19:49:24.364Z",
-                            "people": 0,
-                            "status": {
-                              "status": "string"
-                            }
-                        },
-                        {
-                            "id": '1',
-                            "user": {
-                              "id": "1",
-                              "name": "Santiago Jose",
-                              "phone": "1145788596",
-                              "times_assisted": 20,
-                              "times_expired": 5
-                            },
-                            "venue": "string",
-                            "time": "2024-10-21T19:49:24.364Z",
-                            "people": 0,
-                            "status": {
-                              "status": "string"
-                            }
-                        },
-                        {
-                            "id": '1',
-                            "user": {
-                              "id": "1",
-                              "name": "Juan cruz",
-                              "phone": "1145788596",
-                              "times_assisted": 5,
-                              "times_expired": 15
-                            },
-                            "venue": "string",
-                            "time": "2024-10-21T19:49:24.364Z",
-                            "people": 0,
-                            "status": {
-                              "status": "string"
-                            }
-                        },
-                        {
-                            "id": '1',
-                            "user": {
-                              "id": "1",
-                              "name": "Javier Pereira",
-                              "phone": "1145788596",
-                              "times_assisted": 15,
-                              "times_expired": 0
-                            },
-                            "venue": "string",
-                            "time": "2024-10-21T19:49:24.364Z",
-                            "people": 0,
-                            "status": {
-                              "status": "string"
-                            }
-                        },
-                        {
-                            "id": '1',
-                            "user": {
-                              "id": "1",
-                              "name": "Florencia Martinez",
-                              "phone": "1145788596",
-                              "times_assisted": 20,
-                              "times_expired": 3
-                            },
-                            "venue": "string",
-                            "time": "2024-10-21T19:49:24.364Z",
-                            "people": 0,
-                            "status": {
-                              "status": "string"
-                            }
-                        },
-                        {
-                            "id": '1',
-                            "user": {
-                              "id": "1",
-                              "name": "Carlos Kent",
-                              "phone": "1145788596",
-                              "times_assisted": 0,
-                              "times_expired": 28
-                            },
-                            "venue": "string",
-                            "time": "2024-10-21T19:49:24.364Z",
-                            "people": 0,
-                            "status": {
-                              "status": "string"
-                            }
-                        },
-                        {
-                            "id": '1',
-                            "user": {
-                              "id": "1",
-                              "name": "Marta Gonzales",
-                              "phone": "1145788596",
-                              "times_assisted": 15,
-                              "times_expired": 0
-                            },
-                            "venue": "string",
-                            "time": "2024-10-21T19:49:24.364Z",
-                            "people": 0,
-                            "status": {
-                              "status": "string"
-                            }
-                        },
-                        {
-                            "id": '1',
-                            "user": {
-                              "id": "1",
-                              "name": "Rodrigo Pereira",
-                              "phone": "1145788596",
-                              "times_assisted": 5,
-                              "times_expired": 10
-                            },
-                            "venue": "string",
-                            "time": "2024-10-21T19:49:24.364Z",
-                            "people": 0,
-                            "status": {
-                              "status": "string"
-                            }
-                        },
-                    ]
-                }
+                const result:ReservationData = await GetReservations(props,user)
+                // const result:ReservationData = {
+                //     total:10,
+                //     result:[
+                //         {
+                //             "id": '1',
+                //             "user": {
+                //               "id": "1",
+                //               "name": "Santiago Jose",
+                //               "phone": "1145788596",
+                //               "times_assisted": 100,
+                //               "times_expired": 5
+                //             },
+                //             "venue": "string",
+                //             "time": "2024-10-21T19:49:24.364Z",
+                //             "people": 0,
+                //             "status": {
+                //               "status": "string"
+                //             }
+                //         },
+                //         {
+                //             "id": '1',
+                //             "user": {
+                //               "id": "1",
+                //               "name": "Santiago Jose",
+                //               "phone": "1145788596",
+                //               "times_assisted": 20,
+                //               "times_expired": 5
+                //             },
+                //             "venue": "string",
+                //             "time": "2024-10-21T19:49:24.364Z",
+                //             "people": 0,
+                //             "status": {
+                //               "status": "string"
+                //             }
+                //         },
+                //         {
+                //             "id": '1',
+                //             "user": {
+                //               "id": "1",
+                //               "name": "Juan cruz",
+                //               "phone": "1145788596",
+                //               "times_assisted": 5,
+                //               "times_expired": 15
+                //             },
+                //             "venue": "string",
+                //             "time": "2024-10-21T19:49:24.364Z",
+                //             "people": 0,
+                //             "status": {
+                //               "status": "string"
+                //             }
+                //         },
+                //         {
+                //             "id": '1',
+                //             "user": {
+                //               "id": "1",
+                //               "name": "Javier Pereira",
+                //               "phone": "1145788596",
+                //               "times_assisted": 15,
+                //               "times_expired": 0
+                //             },
+                //             "venue": "string",
+                //             "time": "2024-10-21T19:49:24.364Z",
+                //             "people": 0,
+                //             "status": {
+                //               "status": "string"
+                //             }
+                //         },
+                //         {
+                //             "id": '1',
+                //             "user": {
+                //               "id": "1",
+                //               "name": "Florencia Martinez",
+                //               "phone": "1145788596",
+                //               "times_assisted": 20,
+                //               "times_expired": 3
+                //             },
+                //             "venue": "string",
+                //             "time": "2024-10-21T19:49:24.364Z",
+                //             "people": 0,
+                //             "status": {
+                //               "status": "string"
+                //             }
+                //         },
+                //         {
+                //             "id": '1',
+                //             "user": {
+                //               "id": "1",
+                //               "name": "Carlos Kent",
+                //               "phone": "1145788596",
+                //               "times_assisted": 0,
+                //               "times_expired": 28
+                //             },
+                //             "venue": "string",
+                //             "time": "2024-10-21T19:49:24.364Z",
+                //             "people": 0,
+                //             "status": {
+                //               "status": "string"
+                //             }
+                //         },
+                //         {
+                //             "id": '1',
+                //             "user": {
+                //               "id": "1",
+                //               "name": "Marta Gonzales",
+                //               "phone": "1145788596",
+                //               "times_assisted": 15,
+                //               "times_expired": 0
+                //             },
+                //             "venue": "string",
+                //             "time": "2024-10-21T19:49:24.364Z",
+                //             "people": 0,
+                //             "status": {
+                //               "status": "string"
+                //             }
+                //         },
+                //         {
+                //             "id": '1',
+                //             "user": {
+                //               "id": "1",
+                //               "name": "Rodrigo Pereira",
+                //               "phone": "1145788596",
+                //               "times_assisted": 5,
+                //               "times_expired": 10
+                //             },
+                //             "venue": "string",
+                //             "time": "2024-10-21T19:49:24.364Z",
+                //             "people": 0,
+                //             "status": {
+                //               "status": "string"
+                //             }
+                //         },
+                //     ]
+                // }
                 if(result&&result.result&&result.result.length>0) {
                     const bookings = result.result.map((item)=>item.user)
                     const set = new Set(bookings.map((item)=>JSON.stringify(item)))
@@ -503,7 +503,7 @@ const Stadistics = () => {
                 </ResponsiveContainer>
             </Row>}
 
-            {topFaults.length>0&&<Row className="chart-title" style={{justifyContent:'center',flexDirection:'column',alignContent:'center'}}>Top 10 Cancelaciones por usuarios</Row>}
+            {topFaults.length>0&&<Row className="chart-title" style={{justifyContent:'center',flexDirection:'column',alignContent:'center'}}>Top 10 Expiraciones por usuarios</Row>}
             {topFaults.length>0&&<Row style={{justifyContent:'center',flexDirection:'column',alignContent:'center',height:'40vh', marginBottom:12}}>
                 <ResponsiveContainer width="100%" height="100%">
                     <BarChart
