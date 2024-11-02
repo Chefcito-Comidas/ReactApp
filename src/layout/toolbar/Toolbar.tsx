@@ -17,11 +17,20 @@ import { User } from 'firebase/auth';
 import Loading from '../../components/Loading/Loading';
 import { GetUser } from '../../hooks/getUser.hook';
 import { useCustomNavigation } from '../../hooks/useCustomNavigation';
+import { Alert } from 'react-bootstrap';
 
 const Toolbar = () => {
     const dispatch = useAppDispatch()
     const userData = useAppSelector((state) => state.userData.data)
     const [loading,setLoading] = useState(false)
+    const [showError,setShowError] = useState(false)
+
+    useEffect(()=>{
+        setTimeout(()=>{
+            setShowError(false)
+        },1000)
+    },[showError])
+    
     const {
         user
     } = GetUser()
@@ -207,6 +216,12 @@ const Toolbar = () => {
                     </Form>
                 </Modal.Body>
             </Modal>
+            <Alert variant="danger" show={showError} onClose={() => setShowError(false)} dismissible style={{position:'fixed',top:100,left:'30%',zIndex:1000}}>
+                <Alert.Heading>Error</Alert.Heading>
+                <p>
+                    Mail o contraseña incorrecto
+                </p>
+            </Alert>
         </>
     )
 }
