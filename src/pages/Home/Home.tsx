@@ -3,7 +3,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
-import { Button,Modal } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import * as formik from 'formik';
 import * as yup from 'yup';
 import {createUserPassword,signInWithGoogle} from "../../api/googleAuth";
