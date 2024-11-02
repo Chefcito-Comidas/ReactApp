@@ -18,19 +18,21 @@ import Loading from '../../components/Loading/Loading';
 import { GetUser } from '../../hooks/getUser.hook';
 import { useCustomNavigation } from '../../hooks/useCustomNavigation';
 import { Alert } from 'react-bootstrap';
+import QRCode from 'react-qr-code';
 
 const Toolbar = () => {
     const dispatch = useAppDispatch()
     const userData = useAppSelector((state) => state.userData.data)
     const [loading,setLoading] = useState(false)
     const [showError,setShowError] = useState(false)
+    const [showQr,setShowQr] = useState(false)
 
     useEffect(()=>{
         setTimeout(()=>{
             setShowError(false)
         },1000)
     },[showError])
-    
+
     const {
         user
     } = GetUser()
@@ -130,6 +132,10 @@ const Toolbar = () => {
         navigateStadistics()
     }
 
+    const generateQr = () => {
+        setShowQr(true)
+    }
+
     const logOut = async () => {
         logout()
         navigateHome()
@@ -149,6 +155,7 @@ const Toolbar = () => {
                 {userData&&<div style={{color:'white'}} className="p-2 link"  onClick={goToBookings}>Reservas</div>}
                 {userData&&<div style={{color:'white'}} className="p-2 link"  onClick={goToOpinions}>Opiniones</div>}
                 {userData&&<div style={{color:'white'}} className="p-2 link"  onClick={goToStadistics}>Estadisticas</div>}
+                {userData&&<div style={{color:'white'}} className="p-2 link"  onClick={generateQr}>Generar QR</div>}
                 {userData&&<div style={{color:'white'}} className="p-2 link"  onClick={logOut}>Log Out</div>}
                 {/* <div style={{color:'white'}} className="p-2 link">Preguntas Frecuentes</div> */}
                 {/* <div style={{color:'white'}} className="p-2 link">Preguntas Frecuentes</div> */}
@@ -195,6 +202,14 @@ const Toolbar = () => {
                                 </Form>
                             )}
                     </Formik>
+                </Modal.Body>
+            </Modal>
+            <Modal show={showQr} onHide={()=>setShowQr(false)}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Qr</Modal.Title>
+                </Modal.Header>
+                <Modal.Body style={{display:'flex',justifyContent:'center'}}>
+                    {userData?.data.localid&&<QRCode value={userData.data.localid} />}
                 </Modal.Body>
             </Modal>
             <Modal show={showPassChange} onHide={handleClosePassChange}>
