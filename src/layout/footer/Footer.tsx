@@ -12,7 +12,7 @@ const Footer = () => {
                 <div style={{color:'white'}}>Chefcito <Image src={image} style={{maxHeight:30}} rounded /></div>
                 <div style={{color:'white'}}>Crezcamos Juntos</div>
             </Row>
-            <Button className='p-2 ms-auto' style={{backgroundColor:'transparent',border:'none'}}>Ir al Portal</Button>
+            {/* <Button className='p-2 ms-auto' style={{backgroundColor:'transparent',border:'none'}}>Ir al Portal</Button> */}
         </Stack>
     )
 }
