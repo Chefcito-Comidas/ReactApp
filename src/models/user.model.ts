@@ -1,6 +1,10 @@
 export type UserPost = {
     data:Data;
     points:Points;
+
+
+    description?:string;
+    endpoint?:string;
 }
 
 export type Data = {
