@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Container, Row } from "react-bootstrap"
+import { Alert, Container, Row } from "react-bootstrap"
 import "./Stadistics.css"
 import { useEffect, useState } from "react"
 import { GetUser } from "../../hooks/getUser.hook"
@@ -406,11 +406,6 @@ const Stadistics = () => {
         getBookings()
     },[user,userData])
 
-    useEffect(()=>{
-        if(lowAssitance) {
-            alert("Bajo indice de Asistencias")
-        }
-    },[lowAssitance])
     return(
         <>
         <Container className="stadisics-container">
@@ -538,6 +533,12 @@ const Stadistics = () => {
                 </ResponsiveContainer>
             </Row>}
         </Container>
+        <Alert variant="danger" show={lowAssitance} onClose={() => setLowAssitance(false)} dismissible style={{position:'fixed',top:100,left:'30%',zIndex:1000}}>
+            <Alert.Heading>Elevado incide de inasistencias</Alert.Heading>
+            <p>
+                Bajo indice de Asistencias
+            </p>
+        </Alert>
         </>
     )
 }
