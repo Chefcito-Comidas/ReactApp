@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Alert, Button, Container, Row,Table } from "react-bootstrap"
+import { Alert, Button, Container, OverlayTrigger, Row,Table, Tooltip } from "react-bootstrap"
 import "./BookingHistory.css"
 import Loading from "../../components/Loading/Loading"
 import { useEffect, useState } from "react"
@@ -87,6 +87,22 @@ const BookingHistory = () => {
         setLoading(false)
     }
 
+    const renderTooltip = (props:any) => (
+        <Tooltip id="button-tooltip" {...props}>
+          Bajo Indice de Asistencias
+        </Tooltip>
+    );
+
+    const AlertView = () => {
+        return(
+            <OverlayTrigger
+            overlay={renderTooltip}
+            >
+                <div className="alerta-inasistentcia">!</div>
+            </OverlayTrigger>
+        )
+    }
+
     return(
         <>
         <Container className="history-container">
@@ -141,7 +157,7 @@ const BookingHistory = () => {
                                         >{booking.status.status}</div>
                                     </td>
                                     <td>
-                                        <div className="Center">{booking.user.name}</div>
+                                        <div className="Center">{booking.user.name} {(booking.user.times_assisted<booking.user.times_expired)?AlertView():''}</div>
                                     </td>
                                     <td>
                                         <div className="Center">{booking.user.times_assisted}</div>

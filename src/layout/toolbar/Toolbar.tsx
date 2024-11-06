@@ -83,9 +83,16 @@ const Toolbar = () => {
         console.log('login',user)
         const token = await user?.user.getIdToken()
         if(token) {
+            setLoading(true)
             const newUser = await CreateUser(token,user?.user.displayName??'',user?.user.phoneNumber??'')
             console.log("new user",newUser,token)
-            dispatch(setUserData(newUser))
+            if(!newUser.description){
+                dispatch(setUserData(newUser))
+            } else {
+                const userData = await SingInUser(token)
+                dispatch(setUserData(userData))
+            }
+            setLoading(false)
         }
         handleClose()
     }
@@ -209,7 +216,7 @@ const Toolbar = () => {
                     <Modal.Title>Qr</Modal.Title>
                 </Modal.Header>
                 <Modal.Body style={{display:'flex',justifyContent:'center'}}>
-                    {userData?.data.localid&&<QRCode value={userData.data.localid} />}
+                    {userData?.data?.localid&&<QRCode value={userData.data.localid} />}
                 </Modal.Body>
             </Modal>
             <Modal show={showPassChange} onHide={handleClosePassChange}>
