@@ -17,8 +17,8 @@ const BookingHistory = () => {
     const [showSuccess,setShowSuccess] = useState(false)
     const [showCancelSuccess,setShowCancelSuccess] = useState(false)
     const [showError,setShowError] = useState(false)
-    const [date,setDate] = useState(moment().local())
-    const [endDate,setEndDate] = useState(moment().local().add(1,'month'))
+    const [date,setDate] = useState(moment())
+    const [endDate,setEndDate] = useState(moment().add(1,'month'))
     const [bookings,setBookings] = useState<Reservation[]>([])
 
     useEffect(()=>{
@@ -115,8 +115,8 @@ const BookingHistory = () => {
                 onChange={(date)=>{
                     console.log(date)
                     if(date&&date.length===2) {
-                        setDate(moment(date[0].format('YYYY-MM-DDTHH:mm')).local())
-                        setEndDate(moment(date[1].format('YYYY-MM-DDTHH:mm')).local())
+                        setDate(moment(date[0].format('YYYY-MM-DDTHH:mm')))
+                        setEndDate(moment(date[1].format('YYYY-MM-DDTHH:mm')))
                     }
                 }}
                 range
