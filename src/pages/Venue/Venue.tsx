@@ -188,7 +188,7 @@ const Venue = () => {
 
     useEffect(()=>{
         if(venue) {
-            setOption(venue.slots.map((item)=>{return {value:moment(item).local().format("HH:mm"),label:moment(item).local().format("HH:mm")}}))
+            setOption(venue.slots.map((item)=>{return {value:moment(item).format("HH:mm"),label:moment(item).local().format("HH:mm")}}))
             setTagsOption(venue.characteristics.map((item)=>{return {value:item,label:item}}))
             setFeaturesOption(venue.features.map((item)=>{return {value:item,label:item}}))
         }
@@ -328,7 +328,7 @@ const Venue = () => {
                             onChange={(data:any)=>{
                                 setOption(data)
                                 setVenue({
-                                    slots:data.map((item:any)=>moment().local().set('hour',parseInt(item.value.split(':')[0])).set('minute',parseInt(item.value.split(':')[1])).toISOString())
+                                    slots:data.map((item:any)=>moment().set('hour',parseInt(item.value.split(':')[0])).set('minute',parseInt(item.value.split(':')[1])).toISOString())
                                 })
                             }}
                             labelledBy="Select"
@@ -356,10 +356,10 @@ const Venue = () => {
                         <Form.Group as={Row} className="mb-3" controlId="fecha">
                             <Form.Label column>
                                 <DatePicker
-                                value={venue.vacations.map((item)=>moment(item).local().toDate())}
+                                value={venue.vacations.map((item)=>moment(item).toDate())}
                                 onChange={(date)=>{
                                     setVenue({vacations:[
-                                        ...date.map(item=>moment(item.format('YYYY-MM-DDTHH:mm')).local().toISOString())
+                                        ...date.map(item=>moment(item.format('YYYY-MM-DDTHH:mm')).toISOString())
                                     ]})
                                 }}
                                 format="DD/MM/YYYY"
