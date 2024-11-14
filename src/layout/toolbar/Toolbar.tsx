@@ -88,7 +88,7 @@ const Toolbar = () => {
             const newUser = await CreateUser(token,user?.user.displayName??'',user?.user.phoneNumber??'')
             console.log("new user",newUser,token)
             if(!newUser.description){
-                dispatch(setUserData(newUser))
+                dispatch(setUserData({data:newUser}))
             } else {
                 const userData = await SingInUser(token)
                 dispatch(setUserData(userData))
