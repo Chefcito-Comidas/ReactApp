@@ -30,7 +30,7 @@ const Toolbar = () => {
     useEffect(()=>{
         setTimeout(()=>{
             setShowError(false)
-        },1000)
+        },3000)
     },[showError])
 
     const {
@@ -53,6 +53,7 @@ const Toolbar = () => {
         } else {
             // error en la creacion de usuario
             setLoading(false)
+            setShowError(true)
         }
     }
 
@@ -87,7 +88,7 @@ const Toolbar = () => {
             const newUser = await CreateUser(token,user?.user.displayName??'',user?.user.phoneNumber??'')
             console.log("new user",newUser,token)
             if(!newUser.description){
-                dispatch(setUserData(newUser))
+                dispatch(setUserData({data:newUser}))
             } else {
                 const userData = await SingInUser(token)
                 dispatch(setUserData(userData))
@@ -238,7 +239,7 @@ const Toolbar = () => {
                     </Form>
                 </Modal.Body>
             </Modal>
-            <Alert variant="danger" show={showError} onClose={() => setShowError(false)} dismissible style={{position:'fixed',top:100,left:'30%',zIndex:1000}}>
+            <Alert variant="danger" show={showError} onClose={() => setShowError(false)} dismissible style={{position:'fixed',top:100,left:'30%',zIndex:100000}}>
                 <Alert.Heading>Error</Alert.Heading>
                 <p>
                     Mail o contraseña incorrecto

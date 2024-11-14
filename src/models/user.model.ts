@@ -1,6 +1,6 @@
 export type UserPost = {
     data:Data;
-    points:Points;
+    points?:Points;
 
 
     description?:string;
@@ -11,7 +11,9 @@ export type Data = {
     localid: string;
     email: string;
     name: string;
-    phone_number: "string"
+    phone_number: "string";
+    description?:string;
+    endpoint?:string;
 }
 
 export type Points = {

@@ -35,7 +35,7 @@ const Home = () => {
                 const token = await user.getIdToken()
                 const newUser = await CreateUser(token,values.name,values.phone)
                 console.log("new user",newUser,token)
-                dispatch(setUserData(newUser))
+                dispatch(setUserData({data:newUser}))
             } catch (err) {
                 console.log('err',err)
                 alert("Error al crear usuario")
@@ -55,7 +55,7 @@ const Home = () => {
             try {
                 const newUser = await CreateUser(token,user?.user.displayName??'',user?.user.phoneNumber??'')
                 console.log("new user",newUser,token)
-                dispatch(setUserData(newUser))
+                dispatch(setUserData({data:newUser}))
             } catch (err) {
                 alert("Error al crear usuario")
             }
