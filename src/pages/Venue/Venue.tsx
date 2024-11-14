@@ -52,10 +52,6 @@ const Venue = () => {
         "Wraps",
     ]
     const hours = [
-        '8:00',
-        '8:30',
-        '9:00',
-        '9:30',
         '10:00',
         '10:30',
         '11:00',
@@ -137,6 +133,9 @@ const Venue = () => {
         setLocation(data)
     }
 
+    useEffect(()=>{
+        console.log('option',option)
+    },[option])
     const getPositionSuccess = (position:any) => {
         console.log('position',position)
         const latitude = position?.coords?.latitude;
@@ -322,7 +321,6 @@ const Venue = () => {
                         <Form.Group className="mb-3" controlId="Horarios">
                             <Form.Label>Horarios*</Form.Label>
                             <MultiSelect
-                            ClearSelectedIcon={null}
                             options={hours.map((item)=>{return {label:item,value:item}})}
                             value={option}
                             onChange={(data:any)=>{
