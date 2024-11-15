@@ -159,13 +159,16 @@ const Venue = () => {
                         lat:data.location.split(',')[0],
                         lng:data.location.split(',')[1]
                     })
+                } else {
+                    setVenue({id:userData.data.localid,name:userData.data.name})
                 }
                 if(data && data.name) {
                     newData.current = false
                 }
             } catch (err) {
                 console.log('err get venue',err)
-                setVenue({id:userData.data.localid})
+                console.log('userData',userData)
+                setVenue({id:userData.data.localid,name:userData.data.name})
             }
             setLoading(false)
         }

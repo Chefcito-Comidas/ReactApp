@@ -10,7 +10,7 @@ const Footer = () => {
             <Row className="p-2">
                 <div style={{color:'white'}}>Chefcito <Image src={image} style={{maxHeight:30}} rounded /></div>
                 <div style={{color:'white'}}>Crezcamos Juntos</div>
-                <div style={{color:'white'}}>Contactenos: chefctio.reservas@gmail.com </div>
+                <div style={{color:'white'}}>Contactenos: chefcito.reservas@gmail.com </div>
             </Row>
         </Stack>
     )
