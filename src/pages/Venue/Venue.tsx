@@ -159,6 +159,8 @@ const Venue = () => {
                         lat:data.location.split(',')[0],
                         lng:data.location.split(',')[1]
                     })
+                } else {
+                    setVenue({id:userData.data.localid,name:userData.data.name})
                 }
                 if(data && data.name) {
                     newData.current = false
