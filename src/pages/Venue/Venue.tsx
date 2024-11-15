@@ -165,7 +165,8 @@ const Venue = () => {
                 }
             } catch (err) {
                 console.log('err get venue',err)
-                setVenue({id:userData.data.localid})
+                console.log('userData',userData)
+                setVenue({id:userData.data.localid,name:userData.data.name})
             }
             setLoading(false)
         }

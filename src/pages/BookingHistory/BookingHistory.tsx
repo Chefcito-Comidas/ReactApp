@@ -11,6 +11,7 @@ import moment from "moment"
 import { BookingStatus } from "../../models/BookingStatus.enum"
 import DatePicker from "react-multi-date-picker"
 import DatePanel from "react-multi-date-picker/plugins/date_panel"
+import { getUSerStadistics } from "../../api/stadistics.api"
 
 const BookingHistory = () => {
     const [loading,setLoading] = useState(false)
@@ -20,7 +21,7 @@ const BookingHistory = () => {
     const [date,setDate] = useState(moment())
     const [endDate,setEndDate] = useState(moment().add(1,'month'))
     const [bookings,setBookings] = useState<Reservation[]>([])
-
+    const [alerts,setAlerts] = useState<any>({})
     useEffect(()=>{
         setTimeout(()=>{
             setShowError(false)
@@ -43,7 +44,19 @@ const BookingHistory = () => {
                 props.to_time = endDate.endOf('day').toISOString()
                 setLoading(true)
                 const result = await GetReservations(props,user)
-                console.log('booking',result)
+                const alerts:any = {}
+                for (const booking of result.result) {
+                    if(!alerts[booking.user.id]) {
+                        const result = await getUSerStadistics(booking.user.id,user)
+                        if(result.canceled_alert||result.expired_alert){
+                            alerts[booking.user.id] = 'S'
+                        } else {
+                            alerts[booking.user.id] = 'N'
+                        }
+                    }
+                }
+                setAlerts(alerts)
+                console.log('booking',result,alerts)
                 setBookings([...result.result])
             }
         } catch (err) {
@@ -157,7 +170,7 @@ const BookingHistory = () => {
                                         >{booking.status.status}</div>
                                     </td>
                                     <td>
-                                        <div className="Center">{booking.user.name} {(booking.user.times_assisted<booking.user.times_expired)?AlertView():''}</div>
+                                        <div className="Center">{booking.user.name} {(alerts[booking.user.id]==='S')?AlertView():''}</div>
                                     </td>
                                     <td>
                                         <div className="Center">{booking.user.times_assisted}</div>

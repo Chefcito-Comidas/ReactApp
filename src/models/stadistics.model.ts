@@ -11,3 +11,12 @@ export type StadisticsModel = {
         turns: any
     }
 }
+
+export type UserStats = {
+    user:string;
+    total: number;
+    canceled: number;
+    expired: number;
+    expired_alert: boolean;
+    canceled_alert: boolean;
+}
