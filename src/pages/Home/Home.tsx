@@ -7,7 +7,7 @@ import { Button } from 'react-bootstrap';
 import * as formik from 'formik';
 import * as yup from 'yup';
 import {createUserPassword,signInWithGoogle} from "../../api/googleAuth";
-import { CreateUser } from '../../api/authRestApi';
+import { CreateUser, SingInUser } from '../../api/authRestApi';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks/hook';
 import Loading from '../../components/Loading/Loading';
 import { useState } from 'react';
@@ -54,8 +54,12 @@ const Home = () => {
         if(token) {
             try {
                 const newUser = await CreateUser(token,user?.user.displayName??'',user?.user.phoneNumber??'')
-                console.log("new user",newUser,token)
-                dispatch(setUserData({data:newUser}))
+                if(!newUser.description){
+                    dispatch(setUserData({data:newUser}))
+                } else {
+                    const userData = await SingInUser(token)
+                    dispatch(setUserData(userData))
+                }
             } catch (err) {
                 alert("Error al crear usuario")
             }
