@@ -15,6 +15,9 @@ type ChartData = {
     value:number;
     color?:string;
 }
+
+const days = ['Domingo','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado']
+
 const Stadistics = () => {
 
     const {
@@ -188,9 +191,9 @@ const Stadistics = () => {
                 setLowAssitance(((result.expired+result.canceled)/result.total)>0.5)
                 if(result.total>0) {
                     setBookingStats([
-                        {name:'Cancelado',value:result.canceled,color:'orange'},
-                        {name:'Expirado',value:result.expired,color:'red'},
-                        {name:'Finalizado',value:result.total-result.expired-result.canceled,color:'green'},
+                        {name:'Cancelado',value:Math.round(result.canceled),color:'orange'},
+                        {name:'Expirado',value:Math.round(result.expired),color:'red'},
+                        {name:'Finalizado',value:Math.round(result.total-result.expired-result.canceled),color:'green'},
                     ])
                 }
                 
@@ -207,7 +210,7 @@ const Stadistics = () => {
                 const date:ChartData[] = []
                 for(const key in result.days.means) {
                     date.push({
-                        name:key,
+                        name:days[parseInt(key)],
                         value:result.days.means[key]
                     })
                 }
@@ -404,6 +407,8 @@ const Stadistics = () => {
     useEffect(()=>{
         stadistics()
         getBookings()
+        // setFalseStatdistics()
+        // getFalseResult()
     },[user,userData])
 
     return(
