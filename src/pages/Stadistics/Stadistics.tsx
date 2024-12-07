@@ -190,10 +190,13 @@ const Stadistics = () => {
                 const result = await getStadistics(userData.data.localid,user)
                 setLowAssitance(((result.expired+result.canceled)/result.total)>0.5)
                 if(result.total>0) {
+                    const canceled = Math.round(result.canceled*result.total)
+                    const expired = Math.round(result.expired*result.total)
+                    const asisted = Math.round(result.total*(1-result.canceled-result.expired))
                     setBookingStats([
-                        {name:'Cancelado',value:Math.round(result.canceled),color:'orange'},
-                        {name:'Expirado',value:Math.round(result.expired),color:'red'},
-                        {name:'Finalizado',value:Math.round(result.total-result.expired-result.canceled),color:'green'},
+                        {name:'Cancelado',value:canceled,color:'orange'},
+                        {name:'Expirado',value:expired,color:'red'},
+                        {name:'Asistido',value:asisted,color:'green'},
                     ])
                 }
                 
