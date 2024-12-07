@@ -200,7 +200,7 @@ const Stadistics = () => {
                     ])
                 }
                 
-                setPeople(result.people)
+                setPeople(Math.round(result.people*result.total))
                 const turn:ChartData[] = []
                 for(const key in result.turns.turns) {
                     turn.push({
