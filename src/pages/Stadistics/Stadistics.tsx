@@ -15,6 +15,9 @@ type ChartData = {
     value:number;
     color?:string;
 }
+
+const days = ['Domingo','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado']
+
 const Stadistics = () => {
 
     const {
@@ -207,7 +210,7 @@ const Stadistics = () => {
                 const date:ChartData[] = []
                 for(const key in result.days.means) {
                     date.push({
-                        name:key,
+                        name:days[parseInt(key)],
                         value:result.days.means[key]
                     })
                 }
@@ -404,6 +407,8 @@ const Stadistics = () => {
     useEffect(()=>{
         stadistics()
         getBookings()
+        // setFalseStatdistics()
+        // getFalseResult()
     },[user,userData])
 
     return(
