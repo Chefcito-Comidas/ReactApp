@@ -9,6 +9,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 import { getStadistics } from "../../api/stadistics.api"
 import { GetReservationProps, GetReservations } from "../../api/bookings"
 import { ReservationData } from "../../models/Reservations.model"
+import moment from "moment"
 
 type ChartData = {
     name:string;
@@ -188,7 +189,7 @@ const Stadistics = () => {
         try {
             if(user&&userData) {
                 const result = await getStadistics(userData.data.localid,user)
-                setLowAssitance(((result.expired+result.canceled)/result.total)>0.5)
+                // setLowAssitance(result.people/(1-result.total))
                 if(result.total>0) {
                     const canceled = Math.round(result.canceled*result.total)
                     const expired = Math.round(result.expired*result.total)
@@ -200,11 +201,11 @@ const Stadistics = () => {
                     ])
                 }
                 
-                setPeople(Math.round(result.people*result.total))
+                setPeople(Math.round(result.people/(1-result.total)))
                 const turn:ChartData[] = []
                 for(const key in result.turns.turns) {
                     turn.push({
-                        name:key,
+                        name:moment(key).local().format("HH:mm"),
                         value:result.turns.turns[key]
                     })
                 }

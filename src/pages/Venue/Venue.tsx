@@ -190,7 +190,7 @@ const Venue = () => {
 
     useEffect(()=>{
         if(venue) {
-            setOption(venue.slots.map((item)=>{return {value:moment(item).format("HH:mm"),label:moment(item).local().format("HH:mm")}}))
+            setOption(venue.slots.map((item)=>{return {value:moment(item).add(-3,'hour').local().format("HH:mm"),label:moment(item).add(-3,'hour').local().format("HH:mm")}}))
             setTagsOption(venue.characteristics.map((item)=>{return {value:item,label:item}}))
             setFeaturesOption(venue.features.map((item)=>{return {value:item,label:item}}))
         }
