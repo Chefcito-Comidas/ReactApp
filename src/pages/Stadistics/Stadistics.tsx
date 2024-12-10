@@ -204,14 +204,19 @@ const Stadistics = () => {
                 setPeople(Math.round(result.people/(1-result.canceled-result.expired)))
                 const turn:ChartData[] = []
                 for(const key in result.turns.turns) {
-                    const hour = key.split(':')[0];
-                    const minute = key.split(':')[0];
+                    const hour = parseInt(key.split(':')[0]) - 3;
+                    const minute = key.split(':')[1];
                     turn.push({
-                        name:moment(key).set('hour',parseInt(hour)).set('minute',parseInt(minute)).local().format("HH:mm"),
+                        name:`${hour<0?(24+hour):hour}:${minute}`,
                         value:result.turns.turns[key]
                     })
                 }
-                setTurns(turn)
+
+                setTurns(turn.sort((a,b)=>{
+                    const hourA = parseInt(a.name.split(':')[0])
+                    const hourB = parseInt(b.name.split(':')[0])
+                    return hourA - hourB
+                }))
 
                 const date:ChartData[] = []
                 for(const key in result.days.means) {
