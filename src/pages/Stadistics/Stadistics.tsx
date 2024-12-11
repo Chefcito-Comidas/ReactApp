@@ -201,7 +201,7 @@ const Stadistics = () => {
                     ])
                 }
                 
-                setPeople(Math.round(result.people/(1-result.canceled-result.expired)))
+                setPeople(Math.round(result.people/(result.total * (1-result.canceled-result.expired))))
                 const turn:ChartData[] = []
                 for(const key in result.turns.turns) {
                     const hour = parseInt(key.split(':')[0]) - 3;
