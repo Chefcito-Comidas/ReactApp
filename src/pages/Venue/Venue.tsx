@@ -267,7 +267,7 @@ const Venue = () => {
         try {
             if(user) {
                 if(newData.current) {
-                    venue.location = position.lat +','+position.lng
+                    venue.location = location.lat +','+location.lng
                     CreateVenue(user,venue)
                 } else {
                     EditVenue(user,venue)
