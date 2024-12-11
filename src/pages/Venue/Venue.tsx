@@ -270,6 +270,7 @@ const Venue = () => {
                     venue.location = location.lat +','+location.lng
                     CreateVenue(user,venue)
                 } else {
+                    venue.location = location.lat +','+location.lng
                     EditVenue(user,venue)
                 }
             }
